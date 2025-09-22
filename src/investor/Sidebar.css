@@ -1,0 +1,241 @@
+/* Original Sidebar Styles */
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1f2937 0%, #374151 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s, left 0.3s;
+  position: relative;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.logo-icon {
+  margin-right: 12px;
+  color: #8b5cf6;
+}
+
+.logo-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 8px 0;
+  color: #d1d5db;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: rgba(139, 92, 246, 0.2);
+  color: #8b5cf6;
+}
+
+.nav-link svg {
+  margin-right: 12px;
+}
+
+.nav-link-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid #4b5563;
+}
+
+.logout-link {
+  color: #ef4444;
+}
+
+.logout-link:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+/* Toggle Button inside sidebar */
+.sidebar-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #8b5cf6;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #7c3aed;
+}
+
+.toggle-text {
+  margin-left: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Sidebar collapse effect */
+.sidebar.closed {
+  width: 80px; /* only icons visible */
+  padding: 24px 12px;
+}
+
+.sidebar.closed .logo-title,
+.sidebar.closed .nav-link-text,
+.sidebar.closed .toggle-text {
+  display: none;
+}
+
+/* Mobile Hamburger - small button */
+.mobile-hamburger {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1100;
+  background-color: #8b5cf6;
+  border: none;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.mobile-hamburger:hover {
+  background-color: #7c3aed;
+}
+
+.mobile-hamburger svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile Sidebar Open */
+.sidebar.mobile-open {
+  left: 0 !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    z-index: 1000;
+    height: 100vh;
+    left: -250px;
+  }
+
+  .sidebar.closed {
+    left: -80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    padding: 16px;
+    left: -200px;
+  }
+
+  .sidebar.closed {
+    width: 60px;
+    left: -60px;
+  }
+
+  .sidebar-toggle-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+  }
+
+  .logo-title {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 180px;
+    padding: 12px;
+    left: -180px;
+  }
+
+  .sidebar.closed {
+    width: 50px;
+    left: -50px;
+  }
+
+  .sidebar-toggle-btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .nav-link {
+    padding: 6px 10px;
+  }
+
+  .logo-title {
+    font-size: 16px;
+  }
+}
+
+/* Floating Logout Button for Mobile */
+.mobile-logout-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1200;
+  background-color: #ef4444;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: background-color 0.3s;
+}
+
+.mobile-logout-btn:hover {
+  background-color: #dc2626;
+}
+
+.mobile-logout-btn svg {
+  width: 20px;
+  height: 20px;
+}

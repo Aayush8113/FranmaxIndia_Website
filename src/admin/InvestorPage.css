@@ -1,0 +1,230 @@
+/* Investor Table Container */
+.investor-table-container {
+  padding: 20px;
+  background-color: #f4f7f9;
+  min-height: 100vh;
+  overflow-x: auto;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.table-title {
+  font-size: 24px;
+  color: #060644;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Add Investor Button */
+.add-investor-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.add-investor-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  font-size: 18px;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 15px;
+}
+
+table thead {
+  background-color: #060644;
+  color: white;
+}
+
+table th,
+table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: top;
+}
+
+table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Assign Button */
+.assign-btn {
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 5px;
+  background-color: #f5842c;
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.assign-btn:hover {
+  background-color: #d96e1f;
+  transform: translateY(-2px);
+}
+
+.assign-icon {
+  font-size: 16px;
+}
+
+.assign-text {
+  display: inline-block;
+}
+
+/* Status and Payment Labels */
+.status-active, .payment-yes {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-not-active, .payment-no {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Action Buttons */
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #b52b3a;
+}
+
+/* -------------------- */
+/* 📱 Responsive Table */
+/* -------------------- */
+@media screen and (max-width: 992px) {
+  table th, table td {
+    padding: 10px 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  table, table tbody, table tr, table td {
+    display: block;
+    width: 100%;
+  }
+
+  table tr {
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background: #fff;
+    padding: 10px;
+  }
+
+  table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+    font-size: 14px;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: calc(50% - 30px);
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+  }
+
+  /* In mobile, hide text on Assign button, keep only icon */
+  .assign-text {
+    display: none;
+  }
+
+  .assign-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .table-title {
+    font-size: 20px;
+  }
+
+  .assign-btn {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  table td {
+    font-size: 13px;
+  }
+}

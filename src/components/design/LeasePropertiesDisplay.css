@@ -1,0 +1,268 @@
+/* ====== Main Wrapper and Heading ====== */
+.lease-wrapper {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fefefe;
+}
+
+.lease-heading {
+  text-align: center;
+  font-size: 28px;
+  color: #060644;
+  margin-bottom: 40px;
+  font-weight: 700;
+  padding: 0 12px;
+  line-height: 1.3;
+}
+
+/* ====== Header Row ====== */
+.lease-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* left + right alignment */
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  padding: 0 10px;
+  gap: 10px;
+}
+
+/* ====== View All Link Styling ====== */
+.view-all-link {
+  font-size: 15px;
+  color: #f5842c;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #f5842c;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.view-all-link:hover {
+  background-color: #f5842c;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(245, 132, 44, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ====== Card Grid Layout ====== */
+.lease-card-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 20px;
+  padding-bottom: 10px;
+  scroll-behavior: smooth;
+}
+
+/* ====== Individual Card ====== */
+.lease-card {
+  flex: 0 0 auto;
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+
+.lease-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(6, 6, 68, 0.2);
+}
+
+/* ====== Image Wrapper ====== */
+.lease-img-wrap {
+  width: 100%;
+  height: 180px;
+  background: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.lease-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.lease-card:hover .lease-img-wrap img {
+  transform: scale(1.05);
+}
+
+/* ====== Info and Meta Section ====== */
+.lease-info {
+  padding: 16px;
+  text-align: center;
+}
+
+.lease-info h3 {
+  margin: 10px 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.lease-card:hover .lease-info h3 {
+  color: #f5842c;
+}
+
+.lease-meta {
+  margin: 12px 0;
+  text-align: left;
+  padding: 0 10px;
+}
+
+.lease-meta p {
+  font-size: 14px;
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  color: #444;
+  gap: 5px;
+  text-decoration: none;
+}
+
+.label {
+  font-weight: 700;
+  color: #060644;
+  width: 50%;
+  display: inline-block;
+}
+
+/* ====== Button (Updated to match syb-btn) ====== */
+.lease-btn {
+  margin: 10px auto 15px;
+  background: #0077ff;
+  /* same as syb-btn */
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  /* no underline */
+  font-size: 0.9rem;
+}
+
+.lease-btn:hover {
+  background: #0056cc;
+  /* same hover as syb-btn */
+}
+
+/* ====== Responsive Styles ====== */
+@media (max-width: 992px) {
+  .lease-card-grid {
+    gap: 16px;
+    padding-bottom: 8px;
+  }
+
+  .lease-card {
+    width: 85%;
+    min-width: 250px;
+  }
+
+  .lease-meta p {
+    font-size: 13px;
+  }
+
+  .lease-heading {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 576px) {
+  .lease-card-grid {
+    gap: 12px;
+    padding-bottom: 8px;
+  }
+
+  .lease-card {
+    width: 90%;
+    min-width: 220px;
+  }
+
+  .lease-meta p {
+    font-size: 12px;
+  }
+
+  .lease-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .lease-heading {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .lease-card {
+    min-width: 200px;
+  }
+
+  .lease-meta p {
+    font-size: 11px;
+  }
+
+  .lease-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .lease-heading {
+    font-size: 18px;
+  }
+}
+
+/* ====== Hide Scrollbars for Cleaner Slider ====== */
+.lease-card-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.lease-card-grid {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ====== Infinite Scroll Animation (Optional CSS) ====== */
+.lease-card-grid.auto-slide {
+  animation: slideInfinite 20s linear infinite;
+}
+
+@keyframes slideInfinite {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}

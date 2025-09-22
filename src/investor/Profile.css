@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('./Sidebar.css');
+
+:root {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Layout */
+.profile-layout {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    flex-direction: row;
+}
+
+/* Profile Content */
+.profile-content {
+    flex-grow: 1;
+    padding: 24px;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: all 0.3s ease;
+}
+
+.loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Profile Header */
+.profile-header {
+    text-align: center;
+}
+
+.profile-icon {
+    margin: 0 auto 16px;
+    color: #6b7280;
+}
+
+.profile-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.profile-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Profile Card */
+.profile-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+    padding: 24px;
+    border: 1px solid var(--border-color);
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s ease;
+}
+
+.profile-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+/* Profile Details Grid */
+.profile-details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .profile-details-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Profile Detail Item */
+.profile-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f1f5f9;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.profile-detail-item:hover {
+    background-color: #e0e7ff;
+}
+
+.detail-icon {
+    color: #3b82f6;
+    flex-shrink: 0;
+}
+
+.detail-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.detail-value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+    margin-top: 24px;
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-btn:hover {
+    background-color: #2563eb;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .profile-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-layout {
+        flex-direction: column;
+    }
+
+    .profile-content {
+        padding: 16px;
+    }
+
+    .profile-card {
+        padding: 16px;
+    }
+
+    .profile-title {
+        font-size: 2rem;
+    }
+
+    .profile-card-title {
+        font-size: 1.25rem;
+    }
+
+    .profile-detail-item {
+        gap: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 12px;
+    }
+
+    .detail-label {
+        font-size: 0.8rem;
+    }
+
+    .detail-value {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-content {
+        padding: 12px;
+    }
+
+    .profile-card {
+        padding: 12px;
+    }
+
+    .profile-title {
+        font-size: 1.75rem;
+    }
+
+    .profile-card-title {
+        font-size: 1.125rem;
+    }
+
+    .profile-detail-item {
+        padding: 8px 10px;
+    }
+
+    .detail-label {
+        font-size: 0.75rem;
+    }
+
+    .detail-value {
+        font-size: 0.95rem;
+    }
+
+    .edit-profile-btn {
+        width: 100%;
+        padding: 10px;
+    }
+}

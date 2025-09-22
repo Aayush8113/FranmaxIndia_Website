@@ -1,0 +1,268 @@
+/* ===== Wrapper ===== */
+.contactus-wrapper {
+  font-family: "Poppins", sans-serif;
+  background: #f9fafc;
+  padding: 60px 20px;
+  color: #333;
+}
+
+/* ===== Container ===== */
+.contactus-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* ===== Left Side: Contact Info Card ===== */
+.contactus-info-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  max-width: 280px;
+  width: 100%;
+}
+
+.info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 18px;
+  border-radius: 12px;
+  background: transparent;
+  margin-bottom: 18px;
+  transition: transform 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+}
+
+.info-icon {
+  font-size: 28px;
+  color: #0077b6;
+  flex-shrink: 0;
+}
+
+.info-card h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d3557;
+}
+
+.info-card p {
+  margin: 5px 0 0;
+  color: #444;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* ===== Right Side: Main Container ===== */
+.contactus-main {
+  display: flex;
+  flex-direction: row;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  z-index: 2;
+  min-height: 400px;
+  background: #fff;
+}
+
+/* Image side */
+.contactus-main-image {
+  flex: 1 1 40%;
+  background: url("/src/assets/two-businesspeople-shaking-hands-with-city-skyline-background-sunset-symbolizing.jpg")
+    no-repeat center center/cover;
+  position: relative;
+  min-height: 300px;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Form side */
+.contactus-form {
+  flex: 1 1 60%;
+  background: #fff;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.contactus-form h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 22px;
+  color: #1d3557;
+}
+
+/* Form fields */
+.form-field-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-fields-container {
+  flex-grow: 1;
+  min-width: 220px;
+}
+
+.form-row {
+  margin-bottom: 18px;
+}
+
+.form-field {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 12px 14px;
+  border-radius: 10px;
+}
+
+.form-field input,
+.form-field textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  margin-left: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #333;
+}
+
+.form-field textarea {
+  resize: none;
+  height: 120px;
+}
+
+.icon {
+  font-size: 22px;
+  color: #0077b6;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+button:hover {
+  background: #005f8a;
+}
+
+.btn-icon {
+  font-size: 20px;
+}
+
+/* Logo */
+.logo-container {
+  flex-shrink: 0;
+  width: 35%;
+  min-width: 120px;
+  max-width: 200px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* padding: 12px; */
+  border-radius: 50%;
+  background: #fff;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.company-logo {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .contactus-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .contactus-info-card {
+    position: static;
+    transform: none;
+    margin-bottom: 20px;
+  }
+  .contactus-main {
+    flex-direction: row;
+    width: 100%;
+  }
+  .contactus-main-image {
+    flex: 1 1 35%;
+    min-height: 250px;
+  }
+  .contactus-form {
+    flex: 1 1 65%;
+    padding: 20px;
+  }
+  /* Shrink logo proportionally for tablet */
+  .logo-container {
+    width: 25%;
+    min-width: 100px;
+    max-width: 150px;
+    margin: 15px auto 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .contactus-wrapper {
+    padding: 30px 15px;
+  }
+  .contactus-main {
+    flex-direction: column;
+  }
+  .contactus-main-image {
+    width: 100%;
+    min-height: 200px;
+  }
+  .contactus-form {
+    width: 100%;
+    padding: 15px;
+  }
+  .form-field-wrapper {
+    flex-direction: column;
+  }
+  .logo-container {
+    display: none; /* Hide logo on mobile */
+  }
+}

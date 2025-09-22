@@ -1,0 +1,213 @@
+/* ===== Premium Footer Base ===== */
+.premium-footer {
+  background: linear-gradient(135deg, #060644, #0a0a87);
+  padding: 60px 20px 40px;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  border-top: 1px solid #444;
+}
+
+/* Footer Cards Container */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: stretch;
+}
+
+/* Footer Cards */
+.footer-card {
+  flex: 1;
+  min-width: 240px;
+  background: rgba(255,255,255,0.05);
+  padding: 30px 20px;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.footer-card h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #f5842c;
+  font-weight: 600;
+}
+
+/* Footer Text */
+.footer-card p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+/* Footer Links */
+.footer-link {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #f5842c;
+}
+
+/* Highlight Text */
+.highlight-text {
+  color: #f5842c;
+  font-weight: 600;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 12px;
+}
+
+.social-icons a {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  color: #fff;
+  transition: transform 0.3s ease;
+}
+
+/* Brand Colors for Social Icons */
+.social-facebook { background: #1877F2; }
+.social-linkedin { background: #0A66C2; }
+.social-instagram { 
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+.social-google { 
+  background: #fff;           /* White circle for multicolor G */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.social-google svg { width: 22px; height: 22px; }
+.social-youtube { background: #FF0000; }
+
+/* Hover effect: lift only */
+.social-icons a:hover {
+  transform: translateY(-3px);
+}
+
+/* Location + Icons */
+.footer-icon {
+  margin-right: 8px;
+  color: #f5842c;
+}
+
+.location-icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #f5842c;
+}
+
+.address-text {
+  font-size: 14px;
+  color: #ddd;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.address-text:hover {
+  color: #f5842c;
+}
+
+/* Disclaimer Section */
+.premium-disclaimer {
+  padding: 30px 20px;
+  background: #f9f9f9;
+}
+
+.disclaimer-card {
+  max-width: 1200px;
+  margin: auto;
+  background: #fff;
+  color: #333;
+  border-radius: 14px;
+  padding: 30px 25px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  line-height: 1.8;
+}
+
+.disclaimer-card h4 {
+  color: #f5842c;
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* Inquiry Form */
+.premium-inquiry {
+  margin: 30px auto;
+  max-width: 1200px;
+}
+
+/* Quick Links */
+.footer-quick-links-row {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  border-top: 1px solid #444;
+  padding-top: 20px;
+}
+
+/* Scroll-to-top Button */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  height: 46px;
+  min-width: 46px;
+  background: linear-gradient(135deg, #0077cc, #00aaff);
+  color: #fff;
+  border-radius: 23px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  padding: 0 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.back-to-top-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  background: linear-gradient(135deg, #005fa3, #008fcc);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer-container { flex-direction: column; gap: 30px; }
+}
+@media (max-width: 768px) {
+  .footer-card { padding: 20px 15px; }
+}
+@media (max-width: 480px) {
+  .back-to-top-btn { height: 38px; min-width: 38px; font-size: 12px; padding: 0 12px; }
+}

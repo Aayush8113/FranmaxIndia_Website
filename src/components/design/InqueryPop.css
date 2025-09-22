@@ -1,0 +1,255 @@
+/* ================================
+   Overlay
+=============================== */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+  padding: 10px;
+  /* Prevent overflow on small devices */
+}
+
+/* ================================
+   Popup container
+=============================== */
+.inquery-pop {
+  width: 100%;
+  max-width: 380px;
+  /* smaller for mobile */
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 20px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-family: "Segoe UI", sans-serif;
+  animation: fadeIn 0.35s ease-in-out;
+  overflow-y: auto;
+  max-height: 90vh;
+  /* fits on small screens */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ================================
+   Header
+=============================== */
+.inquery-form h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.inquery-form h2 .header-icon {
+  color: #25d366;
+  font-size: 24px;
+}
+
+.inquery-form h4 {
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 18px;
+  color: #555;
+}
+
+/* ================================
+   Main options
+=============================== */
+.options-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.option-card {
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  min-width: 120px;
+  flex: 1;
+  text-align: center;
+  transition: 0.3s;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.option-card:hover {
+  transform: translateY(-2px);
+  border-color: #25d366;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+.option-card input {
+  display: none;
+}
+
+.option-card .option-icon {
+  font-size: 22px;
+  margin-bottom: 6px;
+  color: #777;
+}
+
+.option-card span {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+}
+
+.option-card.selected {
+  border-color: #25d366;
+  background: #e0f7f1;
+}
+
+.option-card.selected .option-icon {
+  color: #25d366;
+}
+
+/* ================================
+   Inputs
+=============================== */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #25d366;
+  box-shadow: 0 0 5px rgba(37, 211, 102, 0.3) inset;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.input-row input,
+.input-row select {
+  flex: 1;
+  min-width: 100px;
+}
+
+textarea {
+  min-height: 80px;
+  resize: none;
+}
+
+/* ================================
+   Submit button
+=============================== */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #25d366, #1ebe57);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(90deg, #1ebe57, #0fa84f);
+  transform: translateY(-1px);
+}
+
+/* ================================
+   Responsive adjustments
+=============================== */
+@media(max-width:768px) {
+  .inquery-pop {
+    max-width: 340px;
+    padding: 20px 18px;
+  }
+
+  .option-card {
+    min-width: 45%;
+    margin-bottom: 10px;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+}
+
+@media(max-width:480px) {
+  .inquery-pop {
+    max-width: 300px;
+    padding: 18px 15px;
+  }
+
+  .inquery-form h2 {
+    font-size: 18px;
+  }
+
+  .inquery-form h2 .header-icon {
+    font-size: 22px;
+  }
+
+  .inquery-form h4 {
+    font-size: 12px;
+  }
+
+  .option-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .input-row {
+    gap: 6px;
+  }
+} 

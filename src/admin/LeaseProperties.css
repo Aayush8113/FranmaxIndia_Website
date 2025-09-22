@@ -1,0 +1,180 @@
+/* Page layout */
+.lease-properties-page {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  background-color: #fff;
+  color: #374151;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.lease-properties-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-x: auto;
+}
+
+/* Title */
+.lease-properties-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Status messages */
+.status-message {
+  text-align: center;
+  font-size: 1rem;
+  padding: 1rem;
+  color: #6b7280;
+}
+.status-message.error {
+  color: #dc2626;
+}
+
+/* Table wrapper */
+.lease-properties-table-wrapper {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table */
+.lease-properties-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.lease-properties-table thead {
+  background-color: #f9fafb;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.lease-properties-table th,
+.lease-properties-table td {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+}
+
+.lease-properties-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.lease-properties-table tbody tr:hover {
+  background-color: #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+/* Buttons */
+.details-toggle-button {
+  background: #4f46e5;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.details-toggle-button:hover {
+  background: #4338ca;
+}
+
+/* Expanded row */
+.detailed-row td {
+  background: #f9fafb;
+  padding: 1rem;
+}
+
+.detailed-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.detailed-content p {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+/* Empty state */
+.no-data {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .lease-properties-page {
+    flex-direction: column;
+  }
+
+  .lease-properties-content {
+    padding: 1rem;
+  }
+
+  .lease-properties-title {
+    font-size: 1.5rem;
+  }
+
+  .lease-properties-table {
+    min-width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .lease-properties-table thead,
+  .lease-properties-table tbody,
+  .lease-properties-table tr,
+  .lease-properties-table td,
+  .lease-properties-table th {
+    display: block;
+  }
+
+  .lease-properties-table thead {
+    display: none; /* hide headers for small screens */
+  }
+
+  .lease-properties-table td {
+    padding-left: 50%;
+    position: relative;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .lease-properties-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    width: 45%;
+    font-weight: 600;
+    color: #6b7280;
+    white-space: nowrap;
+  }
+
+  .detailed-content {
+    grid-template-columns: 1fr; /* stack details in one column */
+  }
+}
