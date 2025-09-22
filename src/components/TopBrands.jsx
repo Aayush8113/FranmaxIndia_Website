@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import "./design/TopBrands.css";
+import { FaPhoneAlt } from "react-icons/fa";
 import { getImageUrl, getApiUrl } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import "./design/TopBrands.css";
 
 const TopBrands = ({
   apiUrl = getApiUrl("get-premium-brands.php"),
@@ -10,11 +11,11 @@ const TopBrands = ({
 }) => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeImages, setActiveImages] = useState({});
   const cardGridRef = useRef(null);
   const intervalRef = useRef(null);
   const navigate = useNavigate();
 
-  // Currency formatter
   const formatIndianCurrency = (number) => {
     if (!number || isNaN(number)) return "—";
     if (number >= 10000000) return `${(number / 10000000).toFixed(1)} cr`;
@@ -22,7 +23,6 @@ const TopBrands = ({
     return number.toLocaleString("en-IN");
   };
 
-  // Fetch brands
   useEffect(() => {
     const fetchBrands = async () => {
       try {
@@ -33,10 +33,9 @@ const TopBrands = ({
           const unique = data.brands.filter(
             (b, i, arr) => arr.findIndex((x) => x.id === b.id) === i
           );
-          setBrands(unique);
+          setBrands([...unique, ...unique, ...unique]);
         } else setBrands([]);
-      } catch (err) {
-        console.error(err);
+      } catch {
         setBrands([]);
       } finally {
         setLoading(false);
@@ -46,105 +45,191 @@ const TopBrands = ({
     return () => clearInterval(intervalRef.current);
   }, [apiUrl]);
 
-  const handleKnowMore = (id) => navigate(`/brand/${id}`);
-
-  // Infinite auto-scroll
   useEffect(() => {
-    if (!cardGridRef.current || brands.length === 0 || loading) return;
     const grid = cardGridRef.current;
-    const cards = grid.querySelectorAll(".syb-card");
-    if (!cards.length) return;
-    const cardWidth = cards[0].offsetWidth + 15;
+    if (!grid || brands.length === 0) return;
 
-    // Duplicate first and last for infinite loop
-    const totalCards = brands.length;
+    const gapPx = parseInt(getComputedStyle(grid).gap) || 20;
 
-    // Start at first real card
-    grid.scrollLeft = cardWidth;
+    const setCardWidth = () => {
+      const containerWidth = grid.clientWidth;
+      let visible = 1;
+      if (containerWidth >= 1200) visible = 4;
+      else if (containerWidth >= 992) visible = 3;
+      else if (containerWidth >= 768) visible = 2;
 
-    const handleScroll = () => {
-      if (grid.scrollLeft <= 0) {
-        grid.scrollLeft = totalCards * cardWidth;
-      } else if (grid.scrollLeft >= cardWidth * (totalCards + 1)) {
-        grid.scrollLeft = cardWidth;
-      }
+      const cardWidth = Math.floor((containerWidth - gapPx * (visible - 1)) / visible);
+
+      grid.querySelectorAll(".syb-card").forEach((card) => {
+        card.style.flex = `0 0 ${cardWidth}px`;
+        card.style.width = `${cardWidth}px`;
+      });
+
+      return { cardWidth, gapPx, step: cardWidth + gapPx };
     };
 
-    grid.addEventListener("scroll", handleScroll);
+    setCardWidth();
+    const ro = new ResizeObserver(setCardWidth);
+    ro.observe(grid);
+    return () => ro.disconnect();
+  }, [brands]);
+
+  useEffect(() => {
+    const grid = cardGridRef.current;
+    if (!grid || brands.length === 0 || loading) return;
+
+    const cards = grid.querySelectorAll(".syb-card");
+    if (!cards.length) return;
+
+    const gapPx = parseInt(getComputedStyle(grid).gap) || 20;
+    const cardWidth = parseInt(cards[0].style.width || getComputedStyle(cards[0]).width);
+    const step = cardWidth + gapPx;
+    const realCount = brands.length / 3;
+    const middleStart = realCount * step;
+
+    grid.scrollLeft = middleStart;
+
+    let isUserScrolling = false;
+    let scrollTimeout;
+
+    const onScroll = () => {
+      if (grid.scrollLeft <= 0) grid.scrollLeft = middleStart;
+      else if (grid.scrollLeft >= step * (brands.length - realCount)) grid.scrollLeft = middleStart;
+
+      isUserScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isUserScrolling = false;
+      }, 600);
+    };
+
+    grid.addEventListener("scroll", onScroll);
 
     intervalRef.current = setInterval(() => {
-      grid.scrollBy({ left: cardWidth, behavior: "smooth" });
-    }, 4000);
+      if (!isUserScrolling) grid.scrollBy({ left: step, behavior: "smooth" });
+    }, 3500);
 
     return () => {
       clearInterval(intervalRef.current);
-      grid.removeEventListener("scroll", handleScroll);
+      grid.removeEventListener("scroll", onScroll);
     };
   }, [brands, loading]);
 
-  // Render single card
-  const renderCard = (brand, i) => (
-    <div
-      className="syb-card"
-      key={`${brand.id}-${i}`}
-      onClick={() => handleKnowMore(brand.id)}
-      style={{ cursor: "pointer" }}
-    >
-      <div className="syb-img-wrap">
-        <img src={getImageUrl(brand.logo)} alt={brand.name} />
-      </div>
-      <div className="syb-content">
-        <h3>{brand.name}</h3>
-        <div className="syb-detail">
-          <div className="biz-field">
-            <span className="label">Sector:</span>
-            <span className="value">{brand.sector || "—"}</span>
+  const handleKnowMore = (id) => navigate(`/brand/${id}`);
+
+  const renderBrands = () =>
+    brands.map((brand, i) => {
+      const images = brand.images && brand.images.length > 0 ? brand.images : [brand.logo];
+      const activeImage = activeImages[brand.id] || 0;
+
+      return (
+        <div
+          key={`${brand.id}-${i}`}
+          className="syb-card"
+          style={{ boxShadow: "0 4px 10px rgba(0,0,0,0.1)", transition: "box-shadow 0.3s" }}
+        >
+          <div
+            className="syb-img-wrap"
+            onMouseMove={(e) => {
+              const card = e.currentTarget.parentElement; // .syb-card
+              const rect = card.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+              const centerX = rect.width / 2;
+              const centerY = rect.height / 2;
+              const rotateX = ((y - centerY) / centerY) * 10;
+              const rotateY = ((x - centerX) / centerX) * 10;
+              card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+              card.style.transition = "transform 0.1s";
+              card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(0,0,0,0.2)`;
+            }}
+            onMouseLeave={(e) => {
+              const card = e.currentTarget.parentElement;
+              card.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+              card.style.transition = "transform 0.3s";
+              card.style.boxShadow = "0 4px 10px rgba(0,0,0,0.1)";
+            }}
+            onClick={() => handleKnowMore(brand.id)}
+          >
+            {images.map((img, idx) => (
+              <img
+                key={idx}
+                src={getImageUrl(img)}
+                alt={brand.name}
+                className={idx === activeImage ? "show-image" : "hide-image"}
+              />
+            ))}
+
+            {images.length > 1 && (
+              <div className="reveal-buttons">
+                {images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImages((prev) => ({ ...prev, [brand.id]: idx }));
+                    }}
+                    className={idx === activeImage ? "active-btn" : ""}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          <div className="biz-field">
-            <span className="label">Investment:</span>
-            <span className="value">
-              ₹{formatIndianCurrency(brand.min_investment)} –{" "}
-              {formatIndianCurrency(brand.max_investment)}
-            </span>
-          </div>
-          <div className="biz-field">
-            <span className="label">Area:</span>
-            <span className="value">
-              {brand.min_area} – {brand.max_area} sq.ft
-            </span>
-          </div>
-          <div className="biz-field">
-            <span className="label">Outlets:</span>
-            <span className="value">{brand.total_outlets}</span>
+
+          <div className="syb-content">
+            <h3>{brand.name}</h3>
+            <div className="syb-detail">
+              <div className="biz-field">
+                <span className="label">Sector:</span>
+                <span className="value">{brand.sector || "—"}</span>
+              </div>
+              <div className="biz-field">
+                <span className="label">Investment:</span>
+                <span className="value">
+                  ₹{formatIndianCurrency(brand.min_investment)} – {formatIndianCurrency(brand.max_investment)}
+                </span>
+              </div>
+              <div className="biz-field">
+                <span className="label">Area:</span>
+                <span className="value">
+                  {brand.min_area} - {brand.max_area} sq.ft
+                </span>
+              </div>
+              <div className="biz-field">
+                <span className="label">Outlets:</span>
+                <span className="value">{brand.total_outlets}</span>
+              </div>
+            </div>
+
+            <div className="syb-buttons-row">
+              <button
+                className="syb-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleKnowMore(brand.id);
+                }}
+              >
+                Know More
+              </button>
+              <a
+                href="tel:+919403890794"
+                className="syb-call-btn"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaPhoneAlt style={{ marginRight: "6px" }} />
+                Confused? Call Us
+              </a>
+            </div>
           </div>
         </div>
-        <button
-          className="syb-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleKnowMore(brand.id);
-          }}
-        >
-          Know More
-        </button>
-      </div>
-    </div>
-  );
-
-  // Render infinite cards: clone last at start and first at end
-  const renderBrands = () => {
-    if (!brands.length) return null;
-    const first = brands[0];
-    const last = brands[brands.length - 1];
-    const looped = [last, ...brands, first];
-    return looped.map((brand, i) => renderCard(brand, i));
-  };
+      );
+    });
 
   return (
     <div className="syb-wrapper">
       <div className="syb-heading-row">
-        {brands.length >= 1 && <h2 className="syb-heading">{sectionTitle}</h2>}
-        {brands.length >= 1 && (
+        {brands.length > 0 && <h2 className="syb-heading">{sectionTitle}</h2>}
+        {brands.length > 0 && (
           <a href={viewAllLink} className="syb-view-all">
             View All
           </a>

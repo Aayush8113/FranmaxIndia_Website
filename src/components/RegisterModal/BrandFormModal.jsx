@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import {
-  FaIndustry, FaPhone, FaEnvelope,
-  FaMapMarkerAlt, FaCity
-} from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+  FaIndustry,
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaCity,
+} from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import SuccessModal from './SuccessModal';
-import PasswordInput from '../PasswordInput';
-import validateBrandForm from '../../utils/validateBrandForm';
-import '../design/InvestorForm.css'; // This is the correct CSS file to use
-import { getApiUrl } from '../../utils/api';
-import ThankYouModal from '../ThankYouModal';
+import SuccessModal from "./SuccessModal";
+import PasswordInput from "../PasswordInput";
+import validateBrandForm from "../../utils/validateBrandForm";
+import "../design/InvestorForm.css"; // This is the correct CSS file to use
+import { getApiUrl } from "../../utils/api";
+import ThankYouModal from "../ThankYouModal";
 
 export default function BrandFormModal({ isOpen, onClose, onBack }) {
   const [states, setStates] = useState([]);
@@ -20,11 +23,11 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
   const [categories, setCategories] = useState([]);
 
   const [form, setForm] = useState({
-    brand_name: '',
-    brand_email: '',
-    brand_mobile: '',
-    brand_password: '',
-    user_type: 'brand' // Added the hidden field with a default value
+    brand_name: "",
+    brand_email: "",
+    brand_mobile: "",
+    brand_password: "",
+    user_type: "brand", // Added the hidden field with a default value
   });
 
   const [selectedState, setSelectedState] = useState(null);
@@ -36,17 +39,23 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    fetch(getApiUrl('get-indian-states.php'))
-      .then(res => res.json())
-      .then(data => {
-        const formatted = data.map(state => ({ value: state.id, label: state.name }));
+    fetch(getApiUrl("get-indian-states.php"))
+      .then((res) => res.json())
+      .then((data) => {
+        const formatted = data.map((state) => ({
+          value: state.id,
+          label: state.name,
+        }));
         setStates(formatted);
       });
 
-    fetch(getApiUrl('get-master-category.php'))
-      .then(res => res.json())
-      .then(data => {
-        const formatted = data.map(cat => ({ value: cat.mas_cat_id, label: cat.mas_cat_name }));
+    fetch(getApiUrl("get-master-category.php"))
+      .then((res) => res.json())
+      .then((data) => {
+        const formatted = data.map((cat) => ({
+          value: cat.mas_cat_id,
+          label: cat.mas_cat_name,
+        }));
         setCategories(formatted);
       });
   }, []);
@@ -54,9 +63,12 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
   useEffect(() => {
     if (selectedState) {
       fetch(getApiUrl(`get-cities.php?state_id=${selectedState.value}`))
-        .then(res => res.json())
-        .then(data => {
-          const formatted = data.map(city => ({ value: city.id, label: city.name }));
+        .then((res) => res.json())
+        .then((data) => {
+          const formatted = data.map((city) => ({
+            value: city.id,
+            label: city.name,
+          }));
           setCities(formatted);
         });
     } else {
@@ -68,10 +80,16 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const errors = validateBrandForm(form, selectedState, selectedCity, selectedCategory, agreed);
+    const errors = validateBrandForm(
+      form,
+      selectedState,
+      selectedCity,
+      selectedCategory,
+      agreed
+    );
 
     if (Object.keys(errors).length > 0) {
-      Object.values(errors).forEach(msg => toast.error(msg));
+      Object.values(errors).forEach((msg) => toast.error(msg));
       return;
     }
 
@@ -84,47 +102,30 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
       state_id: selectedState?.value,
       city_id: selectedCity?.value,
       category_id: selectedCategory?.value,
-      user_type: form.user_type // Added to the payload
+      user_type: form.user_type, // Added to the payload
     };
 
     try {
       // ✅ Fix: Updated the endpoint to match the PHP file name
-      const res = await fetch(getApiUrl('register-brand.php'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const res = await fetch(getApiUrl("register-brand.php"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
-      // if (data.success) {
-      //   // setShowSuccess(true);
-      //    toast.success("🚀 Registration successful!");
-      
-      //   setShowModal(true); // ✅ Show Thank You Modal
+      if (data.success) {
+        // setShowSuccess(true);
+        toast.success("🚀 Registration successful!");
 
-      //     // Auto close after 3s
-      //   setTimeout(() => setShowModal(false), 3000);
+        setShowModal(true); // ✅ Show Thank You Modal
 
-      //   } else {
-      //   toast.error(data.message || "Registration failed.");
-      // }
-
-  if (data.success) {
-  toast.success("🚀 Registration successful!");
-  setShowModal(true); // ✅ Show Thank You Modal
-
-  // Auto close after 3s (close both ThankYouModal and BrandFormModal)
-  setTimeout(() => {
-    setShowModal(false); 
-    onClose(); // ✅ Close the form modal too
-  }, 3000);
-} else {
-  toast.error(data.message || "Registration failed.");
-}
-
-
-
+        // Auto close after 3s
+        setTimeout(() => setShowModal(false), 3000);
+      } else {
+        toast.error(data.message || "Registration failed.");
+      }
     } catch (err) {
       toast.error("🚫 Server error. Please try again.");
       console.error(err);
@@ -139,7 +140,9 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
       <ToastContainer position="top-right" autoClose={2000} />
       <div className="investor-modal-overlay">
         <div className="investor-modal-box brand-modal">
-          <button className="investor-modal-close-btn" onClick={onClose}>✖</button>
+          <button className="investor-modal-close-btn" onClick={onClose}>
+            ✖
+          </button>
           <h3 className="investor-modal-title">Brand Registration</h3>
 
           <form className="modal-body" onSubmit={handleSubmit}>
@@ -149,16 +152,20 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
                 type="text"
                 placeholder="Brand Name"
                 value={form.brand_name}
-                onChange={(e) => setForm({ ...form, brand_name: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, brand_name: e.target.value })
+                }
               />
             </div>
-             <div className="investor-form-input-with-icon">
+            <div className="investor-form-input-with-icon">
               <FaIndustry className="investor-form-input-icon" />
               <input
                 type="text"
                 placeholder="User Name"
                 value={form.user_name}
-                onChange={(e) => setForm({ ...form, user_name: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, user_name: e.target.value })
+                }
               />
             </div>
 
@@ -168,7 +175,9 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
                 type="tel"
                 placeholder="Mobile Number"
                 value={form.brand_mobile}
-                onChange={(e) => setForm({ ...form, brand_mobile: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, brand_mobile: e.target.value })
+                }
               />
             </div>
 
@@ -178,22 +187,22 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
                 type="email"
                 placeholder="Email"
                 value={form.brand_email}
-                onChange={(e) => setForm({ ...form, brand_email: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, brand_email: e.target.value })
+                }
               />
             </div>
 
             <PasswordInput
               placeholder="Password"
               value={form.brand_password}
-              onChange={(e) => setForm({ ...form, brand_password: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, brand_password: e.target.value })
+              }
             />
 
             {/* This is the new hidden field you requested */}
-            <input
-              type="hidden"
-              name="user_type"
-              value={form.user_type}
-            />
+            <input type="hidden" name="user_type" value={form.user_type} />
 
             <div className="investor-form-select-with-icon">
               <FaMapMarkerAlt className="investor-form-input-icon" />
@@ -239,21 +248,27 @@ export default function BrandFormModal({ isOpen, onClose, onBack }) {
             </label>
 
             <div className="investor-form-btn-group">
-              <button type="button" className="investor-form-back-btn" onClick={onBack}>Back</button>
+              <button
+                type="button"
+                className="investor-form-back-btn"
+                onClick={onBack}
+              >
+                Back
+              </button>
               {agreed && (
-                <button type="submit" className="investor-form-submit-btn">Register</button>
+                <button type="submit" className="investor-form-submit-btn">
+                  Register
+                </button>
               )}
             </div>
           </form>
 
-        {/* ✅ Thank You Modal */}
-      <ThankYouModal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        message="Your registration process is successfully completed! You can access your personalized CRM via your username and password. Click on login button to access CRM"
-      />
-
-
+          {/* ✅ Thank You Modal */}
+          <ThankYouModal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            message="Your registration process is successfully completed! You can access your personalized CRM via your username and password. Click on login button to access CRM"
+          />
         </div>
       </div>
     </>

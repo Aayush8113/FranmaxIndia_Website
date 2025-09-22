@@ -52,6 +52,7 @@ const SearchableDropdown = ({ options, value, onChange, placeholder }) => {
     setSearchTerm(option.name);
     setIsOpen(false);
   };
+
   return (
     <div className="searchable-dropdown">
       <input

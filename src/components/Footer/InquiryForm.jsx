@@ -1,360 +1,292 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import {
-  FaUser, FaEnvelope, FaPhone, FaRegCommentDots
-} from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaRegCommentDots, FaStore, FaHandHoldingUsd } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getApiUrl } from '../../utils/api';
+import './InquiryForm.css';
 
-function InquiryForm() {
+const InquiryForm = () => {
   const [formData, setFormData] = useState({
-    inquiry_type: 'franchise',
+    inquiry_type: '',
     footer_name: '',
     footer_email: '',
     footer_contact: '',
     footer_state: '',
     footer_city: '',
-    footer_message: ''
+    footer_message: '',
   });
 
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loadingStates, setLoadingStates] = useState(false);
   const [loadingCities, setLoadingCities] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    setLoadingStates(true);
-    fetch(getApiUrl('get-indian-states.php'))
-      .then(res => res.json())
-      .then(data => {
+    const fetchStates = async () => {
+      try {
+        setLoadingStates(true);
+        const res = await fetch(getApiUrl('get-indian-states.php'));
+        const data = await res.json();
         if (Array.isArray(data)) {
-          const formatted = data.map(s => ({ label: s.name, value: s.id }));
-          setStates(formatted);
+          setStates(data.map(s => ({ label: s.name, value: s.id })));
         }
-      })
-      .catch(err => {
-        console.error('State fetch error:', err);
+      } catch {
         toast.error('Failed to load states');
-      })
-      .finally(() => setLoadingStates(false));
+      } finally {
+        setLoadingStates(false);
+      }
+    };
+    fetchStates();
   }, []);
 
   useEffect(() => {
-    if (formData.footer_state) {
-      setLoadingCities(true);
-      fetch(getApiUrl(`get-cities.php?state_id=${formData.footer_state}`))
-        .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data)) {
-            const formatted = data.map(city => ({ label: city.name, value: city.id }));
-            setCities(formatted);
-          }
-        })
-        .catch(err => {
-          console.error('City fetch error:', err);
-          toast.error('Failed to load cities');
-        })
-        .finally(() => setLoadingCities(false));
-    } else {
-      setCities([]);
-    }
+    const fetchCities = async () => {
+      if (!formData.footer_state) return setCities([]);
+      try {
+        setLoadingCities(true);
+        const res = await fetch(getApiUrl(`get-cities.php?state_id=${formData.footer_state}`));
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setCities(data.map(c => ({ label: c.name, value: c.id })));
+        }
+      } catch {
+        toast.error('Failed to load cities');
+      } finally {
+        setLoadingCities(false);
+      }
+    };
+    fetchCities();
   }, [formData.footer_state]);
 
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (e) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleStateChange = (option) => {
+    setFormData(prev => ({ ...prev, footer_state: option?.value || '', footer_city: '' }));
+  };
+  const handleCityChange = (option) => {
+    setFormData(prev => ({ ...prev, footer_city: option?.value || '' }));
   };
 
-  const handleStateChange = selectedOption => {
-    setFormData(prev => ({
-      ...prev,
-      footer_state: selectedOption?.value || '',
-      footer_city: ''
-    }));
-  };
-
-  const handleCityChange = selectedOption => {
-    setFormData(prev => ({
-      ...prev,
-      footer_city: selectedOption?.value || ''
-    }));
-  };
-
-  const validate = () => {
+  const validateForm = () => {
     const errors = [];
-
-    if (!formData.footer_name.trim()) {
-      errors.push('Name is required');
-    } else if (!/^[a-zA-Z\s]+$/.test(formData.footer_name.trim())) {
-      errors.push('Name must only contain letters and spaces');
-    }
-
-    if (!formData.footer_email || !/\S+@\S+\.\S+/.test(formData.footer_email)) {
-      errors.push('Valid email is required');
-    }
-
-    if (!/^[6-9]\d{9}$/.test(formData.footer_contact)) {
-      errors.push('Phone must start with 6/7/8/9 and be 10 digits');
-    }
-
-    if (!formData.footer_state) errors.push('State is required');
-    if (!formData.footer_city) errors.push('City is required');
-
+    if (!formData.inquiry_type) errors.push('Inquiry type is required');
+    if (!formData.footer_name.trim() || !/^[A-Za-z\s]+$/.test(formData.footer_name.trim()))
+      errors.push('Name must contain only letters and spaces');
+    if (!formData.footer_email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.footer_email.trim()))
+      errors.push('Invalid email address');
+    if (!/^[6-9]\d{9}$/.test(formData.footer_contact))
+      errors.push('Invalid phone number');
+    if (!formData.footer_state) errors.push('Valid state is required');
+    if (!formData.footer_city) errors.push('Valid city is required');
+    if (!formData.footer_message.trim()) errors.push('Message is required');
     return errors;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate();
+    const errors = validateForm();
+    if (errors.length) return errors.forEach(err => toast.error(err));
 
-    if (validationErrors.length > 0) {
-      validationErrors.forEach(err => toast.error(err));
-    } else {
-      const payload = {
-        inquiry_type: formData.inquiry_type,
-        name: formData.footer_name.trim(),
-        email: formData.footer_email.trim(),
-        contact: formData.footer_contact.trim(),
-        state_id: formData.footer_state,
-        city_id: formData.footer_city,
-        message: formData.footer_message.trim()
-      };
+    const payload = {
+      inquiry_type: formData.inquiry_type,
+      name: formData.footer_name.trim(),
+      email: formData.footer_email.trim(),
+      contact: formData.footer_contact.trim(),
+      state_id: formData.footer_state,
+      city_id: formData.footer_city,
+      message: formData.footer_message.trim(),
+    };
 
-      fetch(getApiUrl('submit-footer-inquiry.php'), {
+    try {
+      const res = await fetch(getApiUrl('submit-footer-inquiry.php'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log("API Response:", data);
-          if (data.success) {
-            toast.success('✅ Inquiry submitted successfully!');
-            setFormData({
-              inquiry_type: 'franchise',
-              footer_name: '',
-              footer_email: '',
-              footer_contact: '',
-              footer_state: '',
-              footer_city: '',
-              footer_message: ''
-            });
-            setCities([]);
-          } else {
-            toast.error(data.error || '❌ Failed to submit inquiry');
-          }
-        })
-        .catch(err => {
-          console.error('Error submitting form:', err);
-          toast.error('❌ Something went wrong!');
-        });
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success('✅ Inquiry submitted successfully!');
+        setSubmitted(true);
+
+        // Auto close thank you after 5 seconds and reset form
+        setTimeout(() => {
+          setSubmitted(false);
+          setFormData({
+            inquiry_type: '',
+            footer_name: '',
+            footer_email: '',
+            footer_contact: '',
+            footer_state: '',
+            footer_city: '',
+            footer_message: '',
+          });
+        }, 5000);
+      } else {
+        toast.error(data.error || '❌ Failed to submit inquiry');
+      }
+    } catch {
+      toast.error('❌ Something went wrong!');
     }
   };
 
+  // React-Select Styles
+  const selectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      borderRadius: '18px',
+      border: state.isFocused ? '1px solid #25d366' : '1px solid #ddd',
+      boxShadow: state.isFocused ? '0 6px 18px rgba(37, 211, 102, 0.25)' : 'none',
+      paddingLeft: '10px',
+      minHeight: '48px',
+      fontSize: '15px',
+      background: '#fefefe',
+    }),
+    singleValue: (provided) => ({ ...provided, color: '#222', fontSize: '15px' }),
+    placeholder: (provided) => ({ ...provided, color: '#888', fontSize: '15px' }),
+    menu: (provided) => ({ ...provided, borderRadius: '18px', overflow: 'hidden', fontSize: '15px' }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#e8fdf2' : '#fff',
+      color: '#222',
+      cursor: 'pointer',
+    }),
+  };
+
   return (
-    <div className="inquiry-form-container">
+    <div className="inquiry-main">
       <ToastContainer position="top-right" autoClose={2000} />
-      <h4>Connect With Us</h4>
+      <div className="inquiry-row">
+        {/* LEFT COLUMN */}
+        <div className="inquiry-left">
+          <div className="advice-card">
+            <div className="advice-icon"><FaStore size={40} color="#25d366" /></div>
+            <div className="inquiry-left">
+              <h3 className="inquiry-title">Connect with Franmax India</h3>
 
-      <form className="inquiry-form" onSubmit={handleSubmit}>
-        <div className="radio-group">
-          <label>
-            <input
-              type="radio"
-              name="inquiry_type"
-              value="franchise"
-              checked={formData.inquiry_type === 'franchise'}
-              onChange={handleInputChange}
-            /> Franchise Inquiry
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="inquiry_type"
-              value="expand"
-              checked={formData.inquiry_type === 'expand'}
-              onChange={handleInputChange}
-            /> Expand Your Brand
-          </label>
-        </div>
+              {/* Franchise Opportunities */}
+              <div className="advice-card">
+                <div className="advice-icon"><FaStore size={40} color="#25d366" /></div>
+                <div className="advice-info">
+                  <h4>Franchise Opportunities</h4>
+                  <p>Franmax India provides complete support for franchisees to scale quickly and profitably. Join our trusted network and grow with proven systems.</p>
+                  <ul className="advice-list">
+                    <li>Extensive Brand Portfolio: Access over 500 franchise opportunities.</li>
+                    <li>Tailored Franchise Matching: Match franchises based on investment, location, and interests.</li>
+                    <li>Comprehensive Support: From site selection to marketing and operations.</li>
 
-        <div className="row">
-          <div className="form-field">
-            <FaUser className="form-icon" />
-            <input
-              type="text"
-              name="footer_name"
-              placeholder="Full Name *"
-              value={formData.footer_name}
-              onChange={handleInputChange}
-            />
-          </div>
+                  </ul>
+                </div>
+              </div>
 
-          <div className="form-field">
-            <FaEnvelope className="form-icon" />
-            <input
-              type="email"
-              name="footer_email"
-              placeholder="Email *"
-              value={formData.footer_email}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="form-field">
-            <FaPhone className="form-icon" />
-            <input
-              type="tel"
-              name="footer_contact"
-              placeholder="Contact Number *"
-              value={formData.footer_contact}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="form-field">
-            <div className="custom-select-container">
-              <Select
-                options={states}
-                value={states.find(s => s.value === formData.footer_state) || null}
-                onChange={handleStateChange}
-                placeholder={loadingStates ? 'Loading states...' : 'Select State *'}
-                isSearchable
-              />
+              {/* Investor Relations */}
+              <div className="advice-card">
+                <div className="advice-icon"><FaHandHoldingUsd size={40} color="#25d366" /></div>
+                <div className="advice-info">
+                  <h4>Investor Relations</h4>
+                  <p>Invest with Franmax India for strong ROI, structured support, and transparency.</p>
+                  <ul className="advice-list">
+                    <li>Diverse Investment Opportunities across sectors.</li>
+                    <li>Expert Market Insights to make informed decisions.</li>
+                    <li>Dedicated Support from our investor relations team.</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="row">
-          <div className="form-field">
-            <div className="custom-select-container">
-              <Select
-                options={cities}
-                value={cities.find(c => c.value === formData.footer_city) || null}
-                onChange={handleCityChange}
-                placeholder={loadingCities ? 'Loading cities...' : 'Select City *'}
-                isSearchable
-                isDisabled={!formData.footer_state}
-              />
+        {/* RIGHT COLUMN */}
+        <div className="inquiry-right">
+          {submitted ? (
+            <div className="thank-you-box fade-in">
+              <h2>🎉 Thank You!</h2>
+              <p>Your inquiry has been submitted successfully. Our team will contact you shortly.</p>
             </div>
-          </div>
+          ) : (
+            <>
+              <h3 className="form-title">Submit Your Inquiry</h3>
+              <p className="form-subtitle">Choose your type and fill the details</p>
 
-          <div className="form-field">
-            <FaRegCommentDots className="form-icon" />
-            <textarea
-              name="footer_message"
-              placeholder="Your Message"
-              rows="3"
-              value={formData.footer_message}
-              onChange={handleInputChange}
-            />
-          </div>
+              {/* Inquiry Type */}
+              <div className="form-row full-width">
+                <div className="form-field full-width">
+                  <select
+                    name="inquiry_type"
+                    value={formData.inquiry_type}
+                    onChange={(e) => setFormData(prev => ({ ...prev, inquiry_type: e.target.value }))}
+                    required
+                    className="inquiry-select"
+                  >
+                    <option value="">Select Inquiry Type *</option>
+                    <option value="expand">Expand Your Brand</option>
+                    <option value="franchise">Franchise Inquiry</option>
+                  </select>
+                </div>
+              </div>
+
+              <form className="inquiry-form" onSubmit={handleSubmit}>
+                <div className="form-row">
+                  <div className="form-field full-width">
+                    <FaUser className="form-icon" />
+                    <input type="text" name="footer_name" placeholder="Full Name *" value={formData.footer_name} onChange={handleInputChange} required />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field half-width">
+                    <FaEnvelope className="form-icon" />
+                    <input type="email" name="footer_email" placeholder="Email *" value={formData.footer_email} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-field half-width">
+                    <FaPhone className="form-icon" />
+                    <input type="tel" name="footer_contact" placeholder="Mobile Number *" value={formData.footer_contact} onChange={handleInputChange} required />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field half-width">
+                    <Select
+                      options={states}
+                      value={states.find(s => s.value === formData.footer_state) || null}
+                      onChange={handleStateChange}
+                      placeholder={loadingStates ? 'Loading states...' : 'Select State *'}
+                      isSearchable
+                      styles={selectStyles}
+                    />
+                  </div>
+                  <div className="form-field half-width">
+                    <Select
+                      options={cities}
+                      value={cities.find(c => c.value === formData.footer_city) || null}
+                      onChange={handleCityChange}
+                      placeholder={loadingCities ? 'Loading cities...' : 'Select City *'}
+                      isSearchable
+                      isDisabled={!formData.footer_state}
+                      styles={selectStyles}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field full-width textarea-field">
+                    <FaRegCommentDots className="form-icon" />
+                    <textarea name="footer_message" placeholder="Type your requirement *" value={formData.footer_message} onChange={handleInputChange} required />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <button type="submit" className="submit-btn">Submit</button>
+                </div>
+              </form>
+            </>
+          )}
         </div>
-
-        <button type="submit" className="submit-btn">Submit Request</button>
-      </form>
-
-      <style>{`
-        .inquiry-form-container {
-          max-width: 600px;
-          margin: 20px auto;
-          background: #ffffff;
-          padding: 20px 25px;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-          font-family: 'Segoe UI', sans-serif;
-        }
-
-        h4 {
-          text-align: center;
-          margin-bottom: 20px;
-          font-size: 20px;
-          color: #222;
-        }
-
-        .radio-group {
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          margin-bottom: 20px;
-        }
-
-        .radio-group label {
-          font-size: 14px;
-          color: #555;
-        }
-
-        .row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 15px;
-          margin-bottom: 15px;
-        }
-
-        .form-field {
-          flex: 1;
-          position: relative;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .form-icon {
-          position: absolute;
-          top: 9px;
-          left: 10px;
-          color: #777;
-          font-size: 14px;
-          pointer-events: none;
-        }
-
-        .form-field input,
-        .form-field textarea {
-          padding: 8px 10px 8px 30px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          font-size: 14px;
-          width: 100%;
-        }
-
-        .form-field textarea {
-          min-height: 60px;
-          resize: vertical;
-        }
-
-        .submit-btn {
-          width: 100%;
-          padding: 10px;
-          background: #060644;
-          color: white;
-          font-size: 15px;
-          font-weight: bold;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-
-        .submit-btn:hover {
-          background: #218838;
-        }
-
-        @media (max-width: 768px) {
-          .row {
-            flex-direction: column;
-            gap: 10px;
-          }
-
-          .radio-group {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-        }
-      `}</style>
-      
+      </div>
     </div>
   );
-}
+};
 
 export default InquiryForm;

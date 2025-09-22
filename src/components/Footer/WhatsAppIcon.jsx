@@ -1,85 +1,20 @@
-// import React, { useState, useRef, useEffect } from "react";
+// import React from "react";
 // import "../design/WhatsAppIcon.css";
 // import { FaWhatsapp } from "react-icons/fa";
 
 // const WhatsAppIcon = () => {
-//   // Start at bottom-left
-//   const [position, setPosition] = useState({
-//     x: 25, // 25px from left
-//     y: window.innerHeight - 85, // 25px from bottom (icon height 60px + margin)
-//   });
-
-//   const iconRef = useRef(null);
-//   const dragging = useRef(false);
-//   const offset = useRef({ x: 0, y: 0 });
-
-//   // Start dragging
-//   const handleMouseDown = (e) => {
-//     dragging.current = true;
-//     const rect = iconRef.current.getBoundingClientRect();
-//     offset.current = {
-//       x: e.clientX - rect.left,
-//       y: e.clientY - rect.top,
-//     };
-//   };
-
-//   // Move while dragging
-//   const handleMouseMove = (e) => {
-//     if (!dragging.current) return;
-
-//     const { innerWidth, innerHeight } = window;
-//     const rect = iconRef.current.getBoundingClientRect();
-
-//     let newX = e.clientX - offset.current.x;
-//     let newY = e.clientY - offset.current.y;
-
-//     // Keep inside screen
-//     if (newX < 0) newX = 0;
-//     if (newY < 0) newY = 0;
-//     if (newX + rect.width > innerWidth) newX = innerWidth - rect.width;
-//     if (newY + rect.height > innerHeight) newY = innerHeight - rect.height;
-
-//     setPosition({ x: newX, y: newY });
-//   };
-
-//   // Stop dragging
-//   const handleMouseUp = () => {
-//     dragging.current = false;
-//   };
-
-//   // Double click opens WhatsApp
-//   const handleDoubleClick = () => {
-//     window.open("https://wa.me/918140038080", "_blank");
-//   };
-
-//   useEffect(() => {
-//     window.addEventListener("mousemove", handleMouseMove);
-//     window.addEventListener("mouseup", handleMouseUp);
-
-//     return () => {
-//       window.removeEventListener("mousemove", handleMouseMove);
-//       window.removeEventListener("mouseup", handleMouseUp);
-//     };
-//   }, []);
-
 //   return (
-//     <div
-//       ref={iconRef}
+//     <a
+//       href="https://wa.me/918140038080"
 //       className="whatsapp-icon"
-//       onMouseDown={handleMouseDown}
-//       onDoubleClick={handleDoubleClick}
-//       style={{
-//         left: position.x,
-//         top: position.y,
-//         bottom: "auto",
-//         right: "auto",
-//         position: "fixed",
-//         cursor: "grab",
-//       }}
-//       title="Drag to move, double click to chat"
+//       target="_blank"
+//       rel="noopener noreferrer"
+//       aria-label="Chat on WhatsApp"
+//       role="button"
+//       title="Chat on WhatsApp"
 //     >
 //       <FaWhatsapp className="whatsapp-icon-svg" />
-//     </div>
+//     </a>
 //   );
 // };
 
@@ -90,127 +25,6 @@
 
 
 
-
-
-
-
-
-
-
-
-// import React, { useState, useRef, useEffect } from "react";
-// import "../design/WhatsAppIcon.css";
-// import { FaWhatsapp } from "react-icons/fa";
-
-// const WhatsAppIcon = () => {
-//   // Start at bottom-left
-//   const [position, setPosition] = useState({
-//     x: 25, // 25px from left
-//     y: window.innerHeight - 85, // bottom
-//   });
-
-//   const iconRef = useRef(null);
-//   const dragging = useRef(false);
-//   const offset = useRef({ x: 0, y: 0 });
-
-//   // Desktop drag start
-//   const handleMouseDown = (e) => {
-//     dragging.current = true;
-//     const rect = iconRef.current.getBoundingClientRect();
-//     offset.current = {
-//       x: e.clientX - rect.left,
-//       y: e.clientY - rect.top,
-//     };
-//   };
-
-//   // Mobile drag start
-//   const handleTouchStart = (e) => {
-//     dragging.current = true;
-//     const rect = iconRef.current.getBoundingClientRect();
-//     offset.current = {
-//       x: e.touches[0].clientX - rect.left,
-//       y: e.touches[0].clientY - rect.top,
-//     };
-//   };
-
-//   // Move while dragging (desktop)
-//   const handleMouseMove = (e) => {
-//     if (!dragging.current) return;
-//     moveIcon(e.clientX, e.clientY);
-//   };
-
-//   // Move while dragging (mobile)
-//   const handleTouchMove = (e) => {
-//     if (!dragging.current) return;
-//     moveIcon(e.touches[0].clientX, e.touches[0].clientY);
-//   };
-
-//   const moveIcon = (clientX, clientY) => {
-//     const { innerWidth, innerHeight } = window;
-//     const rect = iconRef.current.getBoundingClientRect();
-
-//     let newX = clientX - offset.current.x;
-//     let newY = clientY - offset.current.y;
-
-//     // Keep inside screen
-//     if (newX < 0) newX = 0;
-//     if (newY < 0) newY = 0;
-//     if (newX + rect.width > innerWidth) newX = innerWidth - rect.width;
-//     if (newY + rect.height > innerHeight) newY = innerHeight - rect.height;
-
-//     setPosition({ x: newX, y: newY });
-//   };
-
-//   // Stop dragging (desktop/mobile)
-//   const stopDrag = () => {
-//     dragging.current = false;
-//   };
-
-//   // Double click / tap opens WhatsApp
-//   const handleDoubleClick = () => {
-//     window.open("https://wa.me/918140038080", "_blank");
-//   };
-
-//   useEffect(() => {
-//     // Desktop events
-//     window.addEventListener("mousemove", handleMouseMove);
-//     window.addEventListener("mouseup", stopDrag);
-
-//     // Mobile events
-//     window.addEventListener("touchmove", handleTouchMove, { passive: false });
-//     window.addEventListener("touchend", stopDrag);
-
-//     return () => {
-//       window.removeEventListener("mousemove", handleMouseMove);
-//       window.removeEventListener("mouseup", stopDrag);
-//       window.removeEventListener("touchmove", handleTouchMove);
-//       window.removeEventListener("touchend", stopDrag);
-//     };
-//   }, []);
-
-//   return (
-//     <div
-//       ref={iconRef}
-//       className="whatsapp-icon"
-//       onMouseDown={handleMouseDown}
-//       onTouchStart={handleTouchStart}
-//       onDoubleClick={handleDoubleClick}
-//       style={{
-//         left: position.x,
-//         top: position.y,
-//         bottom: "auto",
-//         right: "auto",
-//         position: "fixed",
-//         cursor: "grab",
-//       }}
-//       title="Drag to move, double click to chat"
-//     >
-//       <FaWhatsapp className="whatsapp-icon-svg" />
-//     </div>
-//   );
-// };
-
-// export default WhatsAppIcon;
 
 
 import React, { useState, useEffect, useRef } from "react";

@@ -128,130 +128,112 @@
 
 
 
-
-
-import React, { useState, useEffect, useCallback } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import { FaPlusCircle, FaUserTie } from 'react-icons/fa'; // Added FaUserTie
-import 'react-toastify/dist/ReactToastify.css';
-
+import React, { useEffect, useState } from 'react';
+import './LeaseProperties.css';
 import Sidebar from './Sidebar';
-import AssignModal from './AssignModal';
-import './InvestorPage.css';
-import './DashboardLayout.css';
-// import './InvestorTable.css'; // Ensure correct CSS file
-
 import { getApiUrl } from '../utils/api';
 
-export default function InvestorTable() {
-    const [investors, setInvestors] = useState([]);
-    const [loading, setLoading] = useState(true);
+const LeaseProperties = () => {
+    const [properties, setProperties] = useState([]);
+    const [expandedRowId, setExpandedRowId] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showAssignModal, setShowAssignModal] = useState(false);
-    const [selectedInvestor, setSelectedInvestor] = useState(null);
-
-    const fetchInvestors = useCallback(async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(getApiUrl('get-generic-inquiries.php'));
-            const result = await response.json();
-            if (result.success) {
-                setInvestors(result.data);
-                setError(null);
-            } else {
-                toast.error(result.message || 'Failed to fetch inquiries.');
-                setError(result.message);
-            }
-        } catch (e) {
-            toast.error('Network error. Please check your server connection.');
-            setError(e.message);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
 
     useEffect(() => {
-        fetchInvestors();
-    }, [fetchInvestors]);
+        const apiUrl = getApiUrl('get-lease-properties.php');
 
-    const openAssignModal = (investor) => {
-        setSelectedInvestor(investor);
-        setShowAssignModal(true);
-    };
+        fetch(apiUrl)
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
+            .then(data => {
+                if (data.status === "success" && Array.isArray(data.data)) {
+                    setProperties(data.data);
+                } else setProperties([]);
+            })
+            .catch(err => setError(err.message))
+            .finally(() => setIsLoading(false));
+    }, []);
 
-    const closeAssignModal = () => {
-        setSelectedInvestor(null);
-        setShowAssignModal(false);
-    };
-
-    const handleAssignmentSuccess = () => {
-        toast.success("Investor Assigned Successfully!");
-        fetchInvestors();
-        closeAssignModal();
+    const toggleDetails = (propertyKey) => {
+        setExpandedRowId(expandedRowId === propertyKey ? null : propertyKey);
     };
 
     return (
-        <div className="dashboard-container">
+        <div className="lease-properties-page">
             <Sidebar />
-            <div className="main-content">
-                <ToastContainer position="top-right" autoClose={3000} />
-                <div className="investor-table-container">
-                    <div className="table-header">
-                        <h2 className="table-title">All Inquiries</h2>
-                    </div>
-                    {loading ? (
-                        <div className="loading">Loading inquiries...</div>
-                    ) : error ? (
-                        <div className="error">Error: {error}</div>
-                    ) : investors.length === 0 ? (
-                        <div className="no-data">No Inquiries found.</div>
-                    ) : (
-                        <div className="table-wrapper">
-                            <table>
+            <div className="lease-properties-content">
+                <h2 className="lease-properties-title">Lease Property Inquiries</h2>
+                
+                {isLoading ? (
+                    <div className="status-message">Loading...</div>
+                ) : error ? (
+                    <div className="status-message error">Error: {error}</div>
+                ) : (
+                    <div className="lease-properties-table-wrapper">
+                        <div className="table-container">
+                            <table className="lease-properties-table">
                                 <thead>
                                     <tr>
-                                        <th>Person Name</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
-                                        <th>State</th>
-                                        <th>City</th>
-                                        <th>Message</th>
-                                        <th>Assign</th>
+                                        <th>#</th>
+                                        <th>Owner Name</th>
+                                        <th>Contact</th>
+                                        <th>Expected Rent</th>
+                                        <th>Property Type</th>
+                                        <th>View Details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {investors.map((inv) => (
-                                        <tr key={inv.id}>
-                                            <td data-label="Person Name">{inv.name}</td>
-                                            <td data-label="Phone">{inv.phone}</td>
-                                            <td data-label="Email">{inv.email}</td>
-                                            <td data-label="State">{inv.state_name}</td>
-                                            <td data-label="City">{inv.city_name}</td>
-                                            <td data-label="Message">{inv.message}</td>
-                                            <td data-label="Assign">
-                                                <button
-                                                    className="assign-btn"
-                                                    onClick={() => openAssignModal(inv)}
-                                                >
-                                                    <FaUserTie className="assign-icon" />
-                                                    <span className="assign-text">Assign</span>
-                                                </button>
-                                            </td>
+                                    {properties.length > 0 ? (
+                                        properties.map((prop, idx) => (
+                                            <React.Fragment key={prop.property_key}>
+                                                <tr>
+                                                    <td data-label="#"> {idx + 1} </td>
+                                                    <td data-label="Owner Name">{prop.owner_name}</td>
+                                                    <td data-label="Contact">{prop.contact}</td>
+                                                    <td data-label="Expected Rent">₹{prop.expected_rent}</td>
+                                                    <td data-label="Property Type">{prop.property_type}</td>
+                                                    <td data-label="View Details">
+                                                        <button 
+                                                            onClick={() => toggleDetails(prop.property_key)}
+                                                            className="details-toggle-button"
+                                                        >
+                                                            {expandedRowId === prop.property_key ? 'Hide Details' : 'View Details'}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                {expandedRowId === prop.property_key && (
+                                                    <tr className="detailed-row">
+                                                        <td colSpan="6">
+                                                            <div className="detailed-content">
+                                                                <p><strong>Email:</strong> {prop.email}</p>
+                                                                <p><strong>Address:</strong> {prop.address}</p>
+                                                                <p><strong>SQFT:</strong> {prop.sqft}</p>
+                                                                <p><strong>Floor Type:</strong> {prop.floor_type}</p>
+                                                                <p><strong>State:</strong> {prop.state_name}</p>
+                                                                <p><strong>City:</strong> {prop.city_name}</p>
+                                                                <p><strong>Message:</strong> {prop.message}</p>
+                                                                <p><strong>Created At:</strong> {prop.created_at}</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </React.Fragment>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className="no-data">No lease properties found.</td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
                         </div>
-                    )}
-                </div>
-                {showAssignModal && (
-                    <AssignModal
-                        investor={selectedInvestor}
-                        onClose={closeAssignModal}
-                        onAssign={handleAssignmentSuccess}
-                    />
+                    </div>
                 )}
             </div>
         </div>
     );
-}
+};
+
+export default LeaseProperties;

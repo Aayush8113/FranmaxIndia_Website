@@ -1,262 +1,77 @@
 .dashboard-container {
   display: flex;
-  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .main-content {
-  flex: 1;
+  flex-grow: 1;
   padding: 20px;
-  background-color: #f9fafb;
+  background-color: #f9f9f9;
 }
 
 .table-title {
-  margin-bottom: 20px;
   font-size: 24px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.upload-box {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-}
-
-.upload-btn {
-  background-color: #3182ce;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.upload-btn:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
-}
-
-.loading,
-.error {
-  font-size: 16px;
-  margin: 15px 0;
-  color: #ef4444;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .table-wrapper {
   overflow-x: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .inquiry-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  min-width: 600px; /* ensures horizontal scroll on small screens */
 }
 
 .inquiry-table th,
 .inquiry-table td {
-  padding: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 14px;
-  vertical-align: middle;
 }
 
 .inquiry-table th {
-  background-color: #f3f4f6;
+  background-color: #f0f0f0;
+  color: #555;
 }
 
-.id-col {
-  width: 50px;
-}
-
-.phone-col {
-  width: 140px;
-}
-
-.expand-btn,
-.assign-btn,
-.save-btn,
-.confirm-btn {
-  padding: 4px 8px;
-  margin-right: 6px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
+.summary-row:hover {
+  background-color: #f9f9f9;
 }
 
 .expand-btn {
-  background-color: #2563eb;
+  background-color: #4caf50;
   color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.assign-btn {
-  background-color: #10b981;
-  color: white;
+.expand-btn:hover {
+  background-color: #45a049;
 }
 
-.save-btn {
-  background-color: #f59e0b;
-  color: white;
-  margin-top: 10px;
-}
-
-.confirm-btn {
-  background-color: #3b82f6;
-  color: white;
-  margin-left: 10px;
+.details-row {
+  background-color: #fafafa;
 }
 
 .details-box {
-  background-color: #f9fafb;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.detail-item label {
-  font-size: 12px;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.detail-item input,
-.detail-item select {
-  width: 100%;
-  padding: 6px;
-  border-radius: 4px;
-  border: 1px solid #d1d5db;
-}
-
-.assign-box {
-  margin-bottom: 10px;
-}
-
-.assign-box select {
-  margin-left: 6px;
-}
-
-/* ===== Pagination ===== */
-.pagination {
-  margin: 20px 0;
   display: flex;
-  justify-content: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.pagination button,
-.pagination .ellipsis {
-  background: #f1f5f9;
-  border: 1px solid #cbd5e0;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 8px;
   font-size: 14px;
-  transition: all 0.3s;
-  min-width: 40px;
-  text-align: center;
+  color: #444;
+  padding: 10px 0;
 }
 
-.pagination button:hover {
-  background: #e2e8f0;
-}
-
-.pagination button.active {
-  background: #3182ce;
-  color: white;
-  font-weight: 600;
-  border-color: #225ea8;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.pagination button:disabled {
-  background: #e5e7eb;
-  cursor: not-allowed;
-  color: #9ca3af;
-}
-
-.pagination .ellipsis {
-  border: none;
-  background: transparent;
-  color: #6b7280;
+.loading, .error {
+  padding: 20px;
   font-size: 16px;
-  cursor: default;
-  padding: 6px 8px;
-}
-
-/* ===== Responsive Styles ===== */
-@media screen and (max-width: 1024px) {
-  .details-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-
-  .inquiry-table th,
-  .inquiry-table td {
-    font-size: 13px;
-    padding: 8px;
-  }
-
-  .expand-btn,
-  .assign-btn,
-  .save-btn,
-  .confirm-btn {
-    font-size: 12px;
-    padding: 3px 6px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .dashboard-container {
-    flex-direction: column;
-  }
-
-  .main-content {
-    padding: 10px;
-  }
-
-  .inquiry-table {
-    min-width: 500px;
-  }
-
-  .details-grid {
-    grid-template-columns: 1fr; /* stack inputs on small screens */
-  }
-
-  .upload-box {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .inquiry-table {
-    min-width: 400px;
-  }
-
-  .expand-btn,
-  .assign-btn,
-  .save-btn,
-  .confirm-btn {
-    font-size: 11px;
-    padding: 2px 4px;
-  }
-
-  .pagination button {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
+  color: #888;
 }
