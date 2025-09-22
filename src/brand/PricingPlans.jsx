@@ -67,7 +67,7 @@ const BrandPricingPlans = () => {
 
     try {
       const options = {
-        key: 'rzp_live_R80fc1Istwbzk9', // Replace with your live Razorpay key
+        key: 'rzp_live_RBTmpFVhxFDaRh', // Replace with your live Razorpay key
         amount: plan.price * 100, // amount in paise
         currency: 'INR',
         name: 'FRANMAX INDIA',

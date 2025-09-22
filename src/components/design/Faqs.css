@@ -1,149 +1,173 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* General page container and typography */
 .faqs-page-container {
   font-family: 'Poppins', sans-serif;
   max-width: 900px;
-  margin: 50px auto;
-  padding: 30px;
-  background: #f0f4f8; /* Light gray background */
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin: 60px auto;
+  padding: 40px 30px;
+  background: #f9fbfd;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
 
-/* Header section styling */
+/* Header */
 .faqs-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+  position: relative;
 }
 
 .faqs-header .main-title {
   font-size: 2.8rem;
   font-weight: 700;
-  color: #1a202c; /* Dark text color */
   margin: 0;
-  text-transform: capitalize;
   background: linear-gradient(90deg, #007bff, #00c6ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.faqs-header::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin: 15px auto 0;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  border-radius: 2px;
 }
 
 .faqs-quote {
   font-style: italic;
   font-size: 1rem;
   color: #6a768c;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
-/* FAQs container */
+/* FAQs */
 .faqs-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
-/* Individual FAQ item styling */
 .faq-item {
-  background-color: #ffffff;
-  border-radius: 12px;
+  background: #ffffff;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.35s ease;
+  border: 2px solid transparent;
 }
 
 .faq-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
 }
 
 .faq-item.expanded {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 2px solid transparent;
+  border-image: linear-gradient(90deg, #007bff, #00c6ff) 1;
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
 }
 
-/* Question section */
+/* Question */
 .faq-question {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 22px 24px;
   cursor: pointer;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #f0f6ff;
 }
 
 .faq-question h3 {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #333;
+  color: #2d3748;
   margin: 0;
+  flex: 1;
 }
 
 .faq-icon {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: #007bff;
   transition: transform 0.3s ease;
-  min-width: 20px;
-  text-align: center;
 }
 
-.faq-item.expanded .faq-icon {
-  transform: rotate(45deg);
-  color: #dc3545; /* Change to a vibrant color on expand */
+.faq-icon.rotate {
+  transform: rotate(180deg);
+  color: #ff5c5c;
 }
 
-/* Answer section */
+/* Answer */
 .faq-answer {
-  background-color: #fafbfd;
-  padding: 0 20px;
-  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
   opacity: 0;
-  visibility: hidden;
-  transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out;
 }
 
 .faq-item.expanded .faq-answer {
-  max-height: 500px; /* Adjust as needed for content */
-  padding: 20px;
   opacity: 1;
-  visibility: visible;
 }
 
-.faq-answer p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #4a5568;
-  margin: 0;
-}
-
-/* New CSS for scrollable answer box */
 .scrollable-answer {
-  max-height: 200px; /* Set a fixed height for the scroll box */
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding-right: 15px; /* Add some padding to prevent the text from touching the scrollbar */
+  background: #fafbfd;
+  padding: 18px 22px;
+  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.7;
+  max-height: 220px;
+  overflow-y: auto;
+  border-top: 1px solid #edf2f7;
+  scrollbar-width: thin;
+  scrollbar-color: #007bff #e2e8f0;
 }
 
-/* Loader and message styling */
-.loading-message, .error-message, .no-data-message {
+.scrollable-answer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-answer::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 6px;
+}
+
+.scrollable-answer::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 6px;
+}
+
+/* Messages */
+.loading-message,
+.error-message,
+.no-data-message {
   text-align: center;
-  font-size: 1.2rem;
-  padding: 40px;
+  font-size: 1.1rem;
+  padding: 30px;
   color: #4a5568;
 }
 
 .error-message {
-  color: #e53e3e; /* Red color for errors */
+  color: #e53e3e;
 }
 
-/* Responsive design */
+/* Responsive */
 @media (max-width: 768px) {
   .faqs-page-container {
-    margin: 20px;
-    padding: 20px;
+    margin: 25px;
+    padding: 25px;
   }
+
   .faqs-header .main-title {
     font-size: 2rem;
   }
+
   .faq-question h3 {
     font-size: 1rem;
   }

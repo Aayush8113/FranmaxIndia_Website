@@ -136,16 +136,38 @@ const InquiryForm = ({ submitUrl, showModal, onClose }) => {
       const result = await res.json();
       console.log("API response:", result);
 
+      // if (result.success) {
+      //   toast.success("Inquiry submitted ✅", { autoClose: 5000 });
+      //   setForm({ name: "", email: "", contact: "", stateId: "", cityId: "" });
+      //   setCities([]);
+      //   if (onClose) onClose();
+      // } else {
+      //   toast.error(result.message || "Something went wrong ❌", {
+      //     autoClose: 5000,
+      //   });
+      // }
+
+
       if (result.success) {
-        toast.success("Inquiry submitted ✅", { autoClose: 5000 });
-        setForm({ name: "", email: "", contact: "", stateId: "", cityId: "" });
-        setCities([]);
-        if (onClose) onClose();
-      } else {
-        toast.error(result.message || "Something went wrong ❌", {
-          autoClose: 5000,
-        });
-      }
+  toast.success("Inquiry submitted ✅", { autoClose: 5000 });
+
+  // reset form
+  setForm({ name: "", email: "", contact: "", stateId: "", cityId: "" });
+  setCities([]);
+
+  // ✅ close modal (with small delay if you want toast visible first)
+  if (onClose) {
+    setTimeout(() => onClose(), 800); // optional delay
+  }
+  
+} else {
+  toast.error(result.message || "Something went wrong ❌", {
+    autoClose: 5000,
+  });
+}
+
+
+
     } catch (error) {
       console.error("Submit error:", error);
       toast.error("Error submitting form ❌", { autoClose: 5000 });

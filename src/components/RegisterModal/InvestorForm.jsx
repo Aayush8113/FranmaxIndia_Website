@@ -91,17 +91,34 @@ export default function InvestorFormModal({ isOpen, onClose, onBack }) {
 
       const data = await res.json();
 
-      if (data.success) {
-        toast.success("🚀 Registration successful!");
+      // if (data.success) {
+      //   toast.success("🚀 Registration successful!");
       
-        setShowModal(true); // ✅ Show Thank You Modal
+      //   setShowModal(true); // ✅ Show Thank You Modal
 
-          // Auto close after 3s
-        setTimeout(() => setShowModal(false), 3000);
+      //     // Auto close after 3s
+      //   setTimeout(() => setShowModal(false), 3000);
 
-      } else {
-        toast.error(data.message || "Registration failed.");
-      }
+      // } else {
+      //   toast.error(data.message || "Registration failed.");
+      // }
+
+
+      if (data.success) {
+  toast.success("🚀 Registration successful!");
+  setShowModal(true); // ✅ Show Thank You Modal
+
+  // Auto close after 3s (close both ThankYouModal and BrandFormModal)
+  setTimeout(() => {
+    setShowModal(false); 
+    onClose(); // ✅ Close the form modal too
+  }, 3000);
+} else {
+  toast.error(data.message || "Registration failed.");
+}
+
+
+
     } catch (err) {
       toast.error("🚫 Server error. Please try again.");
       console.error(err);

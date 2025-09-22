@@ -2,9 +2,9 @@
 /* 🔹 Base Sidebar */
 .snbs-sidebar {
   width: clamp(220px, 18%, 280px);
-  background: linear-gradient(180deg, #ffffff, #f8faff);
+  background-color: #ffffff;
   height: 100vh;
-  box-shadow: 4px 0 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 2px 0 12px rgba(0,0,0,0.05);
   padding: 20px;
   position: fixed;
   top: 0;
@@ -12,9 +12,8 @@
   overflow-y: auto;
   font-family: "Segoe UI", sans-serif;
   z-index: 1000;
-  transition: width 0.3s ease, transform 0.3s ease, background 0.3s ease;
-  border-right: 1px solid #e4e8f0;
-  backdrop-filter: blur(6px);
+  transition: width 0.3s ease, transform 0.3s ease;
+  border-right: 1px solid #eee;
 }
 .snbs-sidebar.closed {
   transform: translateX(-100%);
@@ -24,40 +23,23 @@
 }
 
 /* ===================== */
-/* 🔹 Scrollbar Styling */
-.snbs-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-.snbs-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(120, 144, 255, 0.4);
-  border-radius: 6px;
-}
-.snbs-sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 144, 255, 0.7);
-}
-
-/* ===================== */
 /* 🔹 Logo / Header */
 .snbs-logo {
   text-align: center;
   margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #e9edf5;
 }
 .snbs-logo h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: 5px;
-  color: #2d2f73;
-  font-weight: 700;
-  letter-spacing: 1px;
+  color: #060644;
 }
 .snbs-role {
   font-size: 0.9rem;
-  color: #666;
+  color: #888;
 }
 .snbs-email {
   font-size: 0.75rem;
-  color: #999;
+  color: #aaa;
 }
 .snbs-sidebar-header {
   display: flex;
@@ -70,63 +52,51 @@
 .snbs-menu {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 25px;
+  gap: 10px;
+  margin-top: 30px;
 }
 .snbs-section {
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .snbs-section-header {
   font-size: 0.75rem;
   font-weight: bold;
-  color: #4e5d78;
-  padding: 10px 14px;
+  color: #555;
+  padding: 8px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   text-transform: uppercase;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #f7f8fc, #eef1ff);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
-  transition: all 0.25s ease-in-out;
+  border-radius: 6px;
+  background: #f8f9fc;
+  transition: background 0.2s ease;
 }
 .snbs-section-header:hover {
-  background: linear-gradient(135deg, #e8edff, #dce3ff);
-  color: #1a2a8c;
-  transform: translateX(3px);
+  background: #eef3ff;
 }
 .snbs-link {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   color: #333;
   padding: 10px 14px;
   font-size: 0.95rem;
   border-radius: 8px;
   margin: 4px 0;
   text-decoration: none;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.25s ease-in-out;
   background: transparent;
-  position: relative;
 }
 .snbs-link:hover,
 .snbs-link.active {
-  background: linear-gradient(135deg, #f0f4ff, #e5eaff);
-  color: #224abe;
-  box-shadow: 0 2px 8px rgba(34,74,190,0.12);
-  transform: translateX(5px);
+  background-color: #f0f4ff;
+  color: #007bff;
 }
 .snbs-link svg {
   font-size: 1.1rem;
-  color: #4e73df;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-.snbs-link:hover svg {
-  transform: scale(1.15);
-  color: #1a2a8c;
 }
 
 /* ===================== */
@@ -134,38 +104,36 @@
 .snbs-chevron {
   display: flex;
   align-items: center;
-  transition: transform 0.3s ease, color 0.3s ease;
-  color: #888;
+  transition: transform 0.3s ease;
 }
 .snbs-chevron.open {
   transform: rotate(90deg);
-  color: #224abe;
 }
 
 /* ===================== */
 /* 🔹 Mobile Toggle Button */
 .snbs-mobile-toggle {
   position: fixed;
-  top: 12px;
-  left: 14px;
-  width: 40px;
-  height: 40px;
+  top: 10px;
+  left: 12px;
+  width: 38px;
+  height: 38px;
   background: linear-gradient(135deg, #4e73df, #224abe);
   border: none;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 50%;
   cursor: pointer;
   z-index: 2000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   transition: all 0.3s ease;
 }
 .snbs-mobile-toggle:hover {
   background: linear-gradient(135deg, #224abe, #1a2a8c);
-  transform: scale(1.08) rotate(5deg);
+  transform: scale(1.05);
 }
 .snbs-mobile-toggle:active {
   transform: scale(0.95);
@@ -184,13 +152,13 @@
 /* ===================== */
 /* 🔹 Content Inner */
 .snbs-content {
-  padding: 25px;
+  padding: 20px;
   min-height: 100vh;
   background: #f5f6fa;
 }
 
 /* ===================== */
-/* 🔹 Collapsed Sidebar */
+/* 🔹 Collapsed Sidebar (Desktop Minimize) */
 .snbs-sidebar.collapsed {
   width: 70px !important;
 }
@@ -211,7 +179,7 @@
 /* ===================== */
 /* 🔹 Responsive Adjustments */
 
-/* Tablets */
+/* Tablets (768px – 991px) */
 @media (max-width: 991px) {
   .snbs-sidebar {
     width: 65%;
@@ -221,9 +189,20 @@
   .snbs-content-wrapper.with-sidebar {
     margin-left: 65%;
   }
+  .snbs-logo h2 {
+    font-size: 1.2rem;
+  }
+  .snbs-link {
+    font-size: 0.9rem;
+    padding: 9px 12px;
+  }
+  .snbs-section-header {
+    font-size: 0.75rem;
+    padding: 7px 10px;
+  }
 }
 
-/* Large Mobile */
+/* Large Mobile (576px – 767px) */
 @media (max-width: 767px) {
   .snbs-sidebar {
     width: 75%;
@@ -233,9 +212,20 @@
   .snbs-content-wrapper.with-sidebar {
     margin-left: 75%;
   }
+  .snbs-logo h2 {
+    font-size: 1.1rem;
+  }
+  .snbs-link {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+  .snbs-section-header {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+  }
 }
 
-/* Small Mobile */
+/* Small Mobile (up to 575px) */
 @media (max-width: 575px) {
   .snbs-sidebar {
     width: 85%;
@@ -244,5 +234,15 @@
   .snbs-content-wrapper.with-sidebar {
     margin-left: 85%;
   }
+  .snbs-logo h2 {
+    font-size: 1rem;
+  }
+  .snbs-link {
+    font-size: 0.8rem;
+    padding: 7px 9px;
+  }
+  .snbs-section-header {
+    font-size: 0.7rem;
+    padding: 6px 8px;
+  }
 }
-  

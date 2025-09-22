@@ -8,6 +8,8 @@ import SellYourBusinessCards from '../components/SellYourBusinessCards';
 import LeasePropertiesDisplay from '../components/LeasePropertiesDisplay';
 import { getApiUrl } from '../utils/api'; // ✅ import the utility
 import FranchiseListing from '../components/FranchiseListing';
+import Testimonial from '../components/Testimonial';
+
 
 function HomePage() {
   return (
@@ -34,10 +36,11 @@ function HomePage() {
         sectionTitle="Popular Franchising Opportunities"
         viewAllLink="/franchises/category/2"
       />
-
+      {/* <Testimonial/> */}
       <SellYourBusinessCards />
       <LeasePropertiesDisplay />
       <NewsSection />
+      
       {/* <YoutubeSection /> */}
     </div>
   );

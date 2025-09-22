@@ -5,8 +5,8 @@ import SideMenu from "./sidemenu/SideMenuTabs";
 import "./design/Header.css";
 
 const servicesSubmenu = [
-  { name: "Sell Business", path: "/sell-business" },
-  { name: "Lease Property", path: "/lease-property" },
+  { name: "Consulting", path: "/consulting" },
+  { name: "Franchise Expansion", path: "/franchise" },
   { name: "Business Exchange", path: "/sell-business" },
   { name: "Real Estate", path: "/lease-property" },
   { name: "Marketing", path: "/marketing" },
@@ -67,21 +67,20 @@ function Navbar() {
           <Link to="/" className="nav-icon">
             🏠
           </Link>
-           <Link to="/consulting">Start a Bussniess</Link>
-          <Link to="/franchise">Franchise Opportunities</Link>
-          {/* <Link to="/sell-business">Sell Business</Link>
-          <Link to="/lease-property">Lease Property</Link> */}
+          <Link to="/sell-business">Sell Business</Link>
+          <Link to="/lease-property">Lease Property</Link>
           <Link to="/partner">Become Partner</Link>
           <Link to="/faqs">FAQ</Link>
 
           {/* External Link - use <a> for external site */}
-          <a
+          {/* <a
             href="https://www.franxpo.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             Events
-          </a>
+          </a> */}
+          <Link to="/event">Event</Link>
 
           {/* Services Dropdown */}
           <div className="services-dropdown-wrapper" ref={dropdownRef}>
@@ -133,9 +132,7 @@ function Navbar() {
               </div>
             )}
           </div>
-          
         </div>
-        
 
         {/* Right Section */}
         <div className="nav-right">

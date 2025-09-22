@@ -144,12 +144,10 @@ const SellBusinessForm = () => {
           <label><FaBuilding /> Business Name</label>
           <input type="text" name="businessName" value={formData.businessName} onChange={handleChange} />
         </div>
-
         <div className="sell-form-group">
           <label><FaUser /> Owner Name</label>
           <input type="text" name="name" value={formData.name} onChange={handleChange} />
         </div>
-
         <div className="sell-form-group">
           <label><FaEnvelope /> Email</label>
           <input type="email" name="email" value={formData.email} onChange={handleChange} />
@@ -224,12 +222,8 @@ const SellBusinessForm = () => {
         onClose={() => setShowModal(false)}
         message="Thank you for submitting your business details! Our team will contact you shortly."
       />
-
-      
-
       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 };
-
 export default SellBusinessForm;

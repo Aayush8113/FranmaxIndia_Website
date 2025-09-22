@@ -147,35 +147,21 @@ const Partner = () => {
                 isDisabled={!form.state_id}
               />
             </div>
-          
             <div className="form-group">
-  <label htmlFor="isFranchise">Interested in a Franmax India franchise?</label>
-  <div className="radio-toggle">
-    <input
-      type="radio"
-      id="branch"
-      name="isFranchise"
-      value="yes"
-      checked={form.isFranchise === "yes"}
-      onChange={handleChange}
-      required
-    />
-    <label htmlFor="branch">Branch Partner</label>
-
-    <input
-      type="radio"
-      id="imp"
-      name="isFranchise"
-      value="no"
-      checked={form.isFranchise === "no"}
-      onChange={handleChange}
-      required
-    />
-    <label htmlFor="imp">Independent Partner</label>
-  </div>
-</div>
-
-
+            
+              <select
+              placeholder="interested in a Franmax India franchise"
+                id="isFranchise"
+                name="isFranchise"
+                value={form.isFranchise}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>Interested in a Franmax India franchise??</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
           </div>
           <div className="form-row">
             <div className="form-group full-width">

@@ -4,7 +4,7 @@ import { getApiUrl } from "../utils/api";
 import "./ConnectMePage.css";
 import ThankYouModal from "../components/ThankYouModal";
 
-const ConnectMeModal = ({ show, onClose, brandId, productId }) => {
+const ConnectMeModal = ({ show, onClose, brandId, productId,BrandName}) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loadingStates, setLoadingStates] = useState(false);
@@ -93,18 +93,46 @@ const ConnectMeModal = ({ show, onClose, brandId, productId }) => {
       });
       console.log("Server response:", res.data);
 
-      if (res.data.success) {
-        setServerMessage("Your request has been submitted successfully!");
-        setForm({ name: "", email: "", contact: "", stateId: "", cityId: "", message: "" });
+      // if (res.data.success) {
+      //   setServerMessage("Your request has been submitted successfully!");
+      //   setForm({ name: "", email: "", contact: "", stateId: "", cityId: "", message: "" });
       
-           setShowModal(true); // ✅ Show Thank You Modal
+      //      setShowModal(true); // ✅ Show Thank You Modal
 
-          // Auto close after 3s
-        setTimeout(() => setShowModal(false), 3000);
+      //     // Auto close after 3s
+      //   setTimeout(() => setShowModal(false), 3000);
       
-      } else {
-        setServerMessage(res.data.error || "Failed to submit.");
-      }
+      // } else {
+      //   setServerMessage(res.data.error || "Failed to submit.");
+      // }
+
+
+      if (res.data.success) {
+  setServerMessage("Your request has been submitted successfully!");
+  setForm({
+    name: "",
+    email: "",
+    contact: "",
+    stateId: "",
+    cityId: "",
+    message: ""
+  });
+
+  setShowModal(true); // ✅ Show Thank You Modal
+
+  // Auto close after 3s (close both Thank You modal & form modal)
+  setTimeout(() => {
+    setShowModal(false);
+    onClose(); // ✅ close the form modal
+  }, 3000);
+
+} else {
+  setServerMessage(res.data.error || "Failed to submit.");
+}
+
+
+
+
     } catch (err) {
       console.error("Submission error:", err);
       setServerMessage("Server error. Please try again.");
@@ -119,7 +147,7 @@ const ConnectMeModal = ({ show, onClose, brandId, productId }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>&times;</button>
-        <h2>Connect with Us</h2>
+        <h2>Request Callback from {BrandName}</h2>
         {serverMessage && <p className="server-message">{serverMessage}</p>}
         <form onSubmit={handleSubmit} className="connect-form">
           <label>
@@ -206,7 +234,7 @@ const ConnectMeModal = ({ show, onClose, brandId, productId }) => {
       <ThankYouModal
         show={showModal}
         onClose={() => setShowModal(false)}
-        message="Thank you for submitting your business details! Our team will contact you shortly."
+        message="Thank you for showing interest in this brand."
       />
 
       </div>

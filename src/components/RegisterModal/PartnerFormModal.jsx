@@ -80,22 +80,52 @@ export default function PartnerFormModal({ isOpen, onClose, onBack }) {
       });
 
       const data = await res.json();
-      if (data.success) {
-        toast.success("✅ Partner registered successfully!");
-        setShowSuccess(true);
-        setForm({
-          name: '',
-          mobile: '',
-          email: '',
-          password: '',
-          user_type: 'ibp'
-        });
-        setSelectedState(null);
-        setSelectedCity(null);
-        setAgreed(false);
-      } else {
-        toast.error(`❌ ${data.message}`);
-      }
+      // if (data.success) {
+      //   toast.success("✅ Partner registered successfully!");
+      //   setShowSuccess(true);
+      //   setForm({
+      //     name: '',
+      //     mobile: '',
+      //     email: '',
+      //     password: '',
+      //     user_type: 'ibp'
+      //   });
+      //   setSelectedState(null);
+      //   setSelectedCity(null);
+      //   setAgreed(false);
+      // } else {
+      //   toast.error(`❌ ${data.message}`);
+      // }
+
+    if (data.success) {
+  toast.success("✅ Partner registered successfully!");
+  setShowSuccess(true);
+
+  // reset form fields
+  setForm({
+    name: '',
+    mobile: '',
+    email: '',
+    password: '',
+    user_type: 'ibp'
+  });
+  setSelectedState(null);
+  setSelectedCity(null);
+  setAgreed(false);
+
+  // ✅ close modal after short delay (so toast can show)
+  setTimeout(() => {
+    onClose();
+  }, 1500);
+  
+} else {
+  toast.error(`❌ ${data.message}`);
+}
+
+
+
+
+
     } catch (err) {
       toast.error("🚫 Error submitting form. Please try again.");
       console.error(err);

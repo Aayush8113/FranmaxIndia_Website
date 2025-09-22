@@ -77,16 +77,39 @@ export default function LeasingFormModal({ isOpen, onClose, onBack }) {
 
       const data = await res.json();
 
-      if (data.success) {
-        toast.success("✅ Leasing inquiry submitted successfully!");
-        setShowSuccess(true);
-        setForm({ lease_name: '', lease_mobile: '', lease_email: '' });
-        setSelectedState(null);
-        setSelectedCity(null);
-        setAgreed(false);
-      } else {
-        toast.error(`❌ ${data.message}`);
-      }
+      // if (data.success) {
+      //   toast.success("✅ Leasing inquiry submitted successfully!");
+      //   setShowSuccess(true);
+      //   setForm({ lease_name: '', lease_mobile: '', lease_email: '' });
+      //   setSelectedState(null);
+      //   setSelectedCity(null);
+      //   setAgreed(false);
+      // } else {
+      //   toast.error(`❌ ${data.message}`);
+      // }
+
+
+    if (data.success) {
+  toast.success("✅ Leasing inquiry submitted successfully!");
+  setShowSuccess(true);
+
+  // reset form
+  setForm({ lease_name: '', lease_mobile: '', lease_email: '' });
+  setSelectedState(null);
+  setSelectedCity(null);
+  setAgreed(false);
+
+  // ✅ close modal after short delay so toast can show
+  setTimeout(() => {
+    onClose();
+  }, 1500);
+
+} else {
+  toast.error(`❌ ${data.message}`);
+}
+
+
+
     } catch (err) {
       toast.error("🚫 Error submitting form. Please try again.");
       console.error(err);

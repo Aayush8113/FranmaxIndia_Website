@@ -1,4 +1,4 @@
-// FranMaxIndiaPage.jsx
+// EventPage.jsx
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './design/EventPage.css';
 import { getApiUrl } from '../utils/api';
 
-const FranMaxIndiaPage = () => {
+const EventPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -18,12 +18,37 @@ const FranMaxIndiaPage = () => {
         source: '',
     });
     const [isSubmitted, setIsSubmitted] = useState(false);
-
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [loadingStates, setLoadingStates] = useState(false);
     const [loadingCities, setLoadingCities] = useState(false);
+    const [paymentLoader, setPaymentLoader] = useState(false);
 
+    // Event Registration Fee Details
+    const BASE_AMOUNT = 499;
+    const GST_RATE = 0.18; // 18% GST
+    const gstAmount = Math.round(BASE_AMOUNT * GST_RATE);
+    const totalAmount = BASE_AMOUNT + gstAmount;
+
+    // useEffect to load the Razorpay SDK script
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => {
+            setPaymentLoader(true);
+        };
+        script.onerror = (error) => {
+            console.error("Failed to load Razorpay SDK:", error);
+            toast.error("Failed to load payment script. Please refresh the page.");
+        };
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    // ... (existing useEffects for fetching states and cities)
     useEffect(() => {
         const fetchStates = async () => {
             setLoadingStates(true);
@@ -167,6 +192,12 @@ const FranMaxIndiaPage = () => {
         e.preventDefault();
         if (!validateForm()) return;
 
+        // Check if Razorpay script is loaded before proceeding
+        if (!paymentLoader) {
+            toast.error("Payment gateway is not ready yet. Please try again in a moment.");
+            return;
+        }
+
         const payload = {
             name: formData.name.trim(),
             email: formData.email.trim(),
@@ -175,34 +206,78 @@ const FranMaxIndiaPage = () => {
             city: formData.city.value,
             source: formData.source,
         };
-        try {
-             document.getElementById('register-button').textContent = 'Submitting...';
-            const response = await fetch(getApiUrl('register-event.php'), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-             document.getElementById('register-button').textContent = 'Submitting...';
-            const result = await response.json();
-             document.getElementById('register-button').textContent = 'Submitting...';
 
-            if (response.ok && result.success) {
-                // register-button make the text of this as submitting
-               
-                setIsSubmitted(true);
-                toast.success(result.message || "Thank you for registering! We'll be in touch soon.");
-            } else {
-                toast.error(result.message || "Something went wrong. Please try again.");
+        const registerButton = document.getElementById('register-button');
+        registerButton.textContent = 'Processing...';
+        registerButton.disabled = true;
+
+        const razorpayOptions = {
+            key: process.env.REACT_APP_API_KEY, // Use the API key from environment variable
+            amount: totalAmount * 100, // Amount in paisa, so multiply by 100
+            currency: 'INR',
+            name: 'FRANMAX INDIA',
+            description: `Event Registration Fee (incl. GST)`,
+            image: 'http://franmaxindia.com/images/icon.png',
+            prefill: {
+                name: payload.name,
+                email: payload.email,
+                contact: payload.phone
+            },
+            theme: {
+                color: '#156beb'
+            },
+            handler: async (response) => {
+                try {
+                    const registrationPayload = {
+                        ...payload,
+                        payment_id: response.razorpay_payment_id
+                    };
+                
+
+                    const apiResponse = await fetch(getApiUrl('register-event.php'), {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(registrationPayload)
+                    });
+
+                    const result = await apiResponse.json();
+
+                    if (apiResponse.ok && result.success) {
+                        setIsSubmitted(true);
+                        toast.success(result.message || "Thank you for registering! We'll be in touch soon.");
+                    } else {
+                        toast.error(result.message || "Something went wrong with registration. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error submitting registration after payment:", error);
+                    toast.error(`Error: ${error.message}`);
+                } finally {
+                    registerButton.textContent = 'Register';
+                    registerButton.disabled = false;
+                }
+            },
+            modal: {
+                ondismiss: () => {
+                    registerButton.textContent = 'Register';
+                    registerButton.disabled = false;
+                }
             }
+        };
+
+        try {
+            const rzp = new window.Razorpay(razorpayOptions);
+            rzp.open();
         } catch (error) {
-            console.error("Error submitting form:", error);
-            toast.error(`Error: ${error.message}`);
+            console.error("Error opening Razorpay:", error);
+            toast.error("Could not open payment gateway. Please try again.");
+            registerButton.textContent = 'Register';
+            registerButton.disabled = false;
         }
     };
 
-
+    // ... (rest of the component JSX, which remains unchanged)
     const heroVariants = {
         hidden: { opacity: 0, y: -50 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -243,14 +318,14 @@ const FranMaxIndiaPage = () => {
                 <div className="hero-overlay"></div>
                 <div className="hero-content">
                     <div className="logo-section">
-                        <h1 className="franmax-title">FranMax India Presents:</h1>
-                        <h2 className="summit-title">The Franchise Show 2025</h2>
+                        <h1 className="franmax-title">FRANMAX INDIA Presents:</h1>
+                        <h2 className="summit-title">The FRANXPO 2025</h2>
                     </div>
                     <h3 className="hero-tagline">Unlock Your Entrepreneurial Potential</h3>
                     <div className="event-details">
-                        <p><strong>Date:</strong> Sunday, 14 September 2025</p>
+                        <p><strong>Date:</strong> 15-16 Nov 2025</p>
                         <p><strong>Time:</strong> 10:00 AM - 6:00 PM</p>
-                        <p><strong>Venue:</strong> Taj Skyline, Ahmedabad</p>
+                        {/* <p><strong>Venue:</strong> Taj Skyline, Ahmedabad</p> */}
                     </div>
                     <motion.button
                         onClick={openModal}
@@ -271,7 +346,7 @@ const FranMaxIndiaPage = () => {
                 variants={contentVariants}
             >
                 <div className="content-section">
-                    <h3 className="section-title">Why Attend The Franchise Show?</h3>
+                    <h3 className="section-title">Why Attend The FRANXPO ?</h3>
                     <div className="benefits-grid">
                         <motion.div
                             className="benefit-card"
@@ -364,7 +439,20 @@ const FranMaxIndiaPage = () => {
                             exit="exit"
                         >
                             <span className="close-button" onClick={closeModal}>&times;</span>
-                            <h3 className="section-title modal-title">Register for The Franchise Show 2025</h3>
+                            <h3 className="section-title modal-title">Register for The FRANXPO 2025</h3>
+
+
+                            <p className="modal-description">
+                                A nominal fee of
+                                <span className="price-breakdown">
+                                    <span className="base-price">&nbsp;&nbsp;₹{BASE_AMOUNT}</span>
+                                    <span className="plus-sign">+</span>
+                                    <span className="gst-info">18% GST</span>
+                                </span>
+
+                            </p>
+
+                            {/* ... rest of your form ... */}
                             {isSubmitted ? (
                                 <div className="success-message">
                                     <h4>Thank You for Registering!</h4>
@@ -519,7 +607,7 @@ const FranMaxIndiaPage = () => {
                                         whileHover="hover"
                                         whileTap="tap"
                                     >
-                                        Register
+                                        Register 
                                     </motion.button>
                                 </form>
                             )}
@@ -527,9 +615,9 @@ const FranMaxIndiaPage = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-
             <ToastContainer />
         </div>
     );
 };
-export default FranMaxIndiaPage;
+
+export default EventPage;
