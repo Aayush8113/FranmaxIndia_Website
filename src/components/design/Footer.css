@@ -26,7 +26,6 @@
   box-shadow: 0 5px 20px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -95,7 +94,7 @@
   background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
 }
 .social-google { 
-  background: #fff;           /* White circle for multicolor G */
+  background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,13 +200,89 @@
   background: linear-gradient(135deg, #005fa3, #008fcc);
 }
 
+/* ===== Master Categories Section ===== */
+.premium-categories {
+  background: #fff;
+  padding: 40px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.categories-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #060644;
+}
+
+.categories-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.category-card {
+  background: linear-gradient(135deg, #fdfdfd, #f7f7f7);
+  border-radius: 14px;
+  padding: 25px 15px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.category-icon {
+  font-size: 32px;
+  color: #f5842c;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: rgba(245, 132, 44, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+  background: rgba(245, 132, 44, 0.2);
+  transform: scale(1.1);
+}
+
+.category-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #060644;
+  text-transform: capitalize;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .footer-container { flex-direction: column; gap: 30px; }
 }
 @media (max-width: 768px) {
   .footer-card { padding: 20px 15px; }
+  .categories-title { font-size: 20px; }
+  .category-card { padding: 20px 12px; }
+  .category-icon { font-size: 28px; width: 54px; height: 54px; }
 }
 @media (max-width: 480px) {
   .back-to-top-btn { height: 38px; min-width: 38px; font-size: 12px; padding: 0 12px; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .category-name { font-size: 14px; }
+  .category-icon { font-size: 26px; width: 50px; height: 50px; }
 }

@@ -17,8 +17,9 @@ import ProtectedBrandRoute from "./brand/ProtectedRoute";
 import CategoryPage from "./components/CategoryPage";
 import BrandListing from "./pages/BrandListing";
 import ProductDetail from "./pages/ProductDetail";
-import InquiryPop from "./components/InqueryPop";
+// import InquiryPop from "./components/InqueryPop";
 
+import JobInquiry from "./components/JobInquiry";
 
 
 
@@ -92,6 +93,9 @@ const AdminEventPage = lazy(() => import("./admin/EventRegisterPage"));
 const LazyInvestorProfile = lazy(() => import("./investor/Profile"));
 const LazyInvestorPricing = lazy(() => import("./investor/PricingPlan"));
 const LazyInvestorBrandListing = lazy(() => import("./investor/BrandsPage"));
+// const LazyJobInquiry = lazy(() => import("./components/JobInquiry"));
+
+
 // Component to handle redirection from the root path based on authentication status
 const HomeRedirect = () => {
   const adminId = localStorage.getItem("adminId");
@@ -369,6 +373,19 @@ function AppContent() {
           }
         />
 
+
+        {/* <Route
+  path="/career"
+  element={
+    <Suspense fallback={FallbackSpinner}>
+      <LazyJobInquiry /> 
+    </Suspense>
+  }
+/> */}
+
+<Route path="/career" element={<JobInquiry />} />
+
+
         {/* <Route 
   path="/brand/:id" 
   element={
@@ -615,7 +632,7 @@ function AppContent() {
       {!shouldHideLayout && <Footer />}
 
 
-      <InquiryPop />
+      {/* <InquiryPop /> */}
     </>
   );
 }

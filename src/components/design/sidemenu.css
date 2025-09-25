@@ -1,187 +1,161 @@
+/* Sidebar Base */
 .side-menu {
-  width: 300px;
+  width: 320px;
   height: 100%;
   background: #fff;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 0 15px rgba(0,0,0,0.15);
   position: fixed;
   left: 0;
   top: 0;
   overflow-y: auto;
   z-index: 999;
+  border-right: 1px solid #e1e1e1;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 
-.side-tabs {
-  display: flex;
-  border-bottom: 1px solid #ddd;
+.side-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+  z-index: 998;
 }
 
-.side-tabs button {
-  flex: 1;
-  padding: 12px;
-  font-weight: bold;
-  background: #f8f8f8;
+.close-side-menu {
+  background: none;
   border: none;
+  font-size: 22px;
   cursor: pointer;
+  color: #d90000;
+  float: right;
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
 }
-
-.side-tabs button.active {
-  background: #fff;
-  border-bottom: 2px solid #d71920;
-  color: #060644;
-}
+.close-side-menu:hover { color: #ff4d4d; }
 
 .side-content {
-  padding: 10px;
+  padding: 20px;
 }
 
-.drawer-container {
-  position: relative;
+/* Sections */
+.side-section {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  background: #fdfdfd;
+  transition: box-shadow 0.3s ease;
+}
+.side-section:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.drawer-panel {
-  display: none;
-  animation: slideIn 0.3s ease;
-}
-
-.drawer-panel.active {
-  display: block;
-}
-
-.drawer-header {
+.section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #004e92;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 0;
+  gap: 8px;
+  margin: 0;
+}
+.section-title .icon { color: #007bff; }
+
+.toggle-section {
+  font-size: 18px;
+  color: #555;
+  transition: color 0.2s ease;
+}
+.toggle-section:hover { color: #d90000; }
+
+/* Drawer Panels */
+.drawer-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.drawer-panel.active {
+  max-height: 800px; /* large enough for content */
 }
 
-.drawer-list {
+/* Drawer List Items */
+.drawer-list, .state-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.drawer-list li {
-  padding: 10px;
+.drawer-list li, .state-list li {
+  padding: 12px 15px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background 0.2s ease, border-left 0.2s ease;
 }
 
-.drawer-list li:hover {
-  background-color: #f9f9f9;
+.drawer-list li:hover, .state-list li:hover {
+  background-color: #f0f8ff;
+  border-left: 4px solid #007bff;
 }
 
-.drawer-list li a {
-  color: #000;
-  text-decoration: none;
-}
-
-.state-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.state-list li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.state-list li a {
-  text-decoration: none;
+.drawer-list li a, .state-list li a {
   color: #060644;
+  text-decoration: none;
   font-weight: 500;
 }
+
+/* Search Input */
 .search-input {
   width: 100%;
-  padding: 10px 14px;
-  margin-bottom: 14px;
+  padding: 12px 15px;
+  margin-bottom: 16px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 15px;
   outline: none;
-  transition: all 0.3s ease;
   background-color: #f9f9f9;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
 }
+.search-input:hover { border-color: #aaa; background-color: #f1f1f1; }
+.search-input:focus { border-color: #007bff; background-color: #fff; box-shadow: 0 0 0 3px rgba(0,123,255,0.1); }
 
-.search-input::placeholder {
-  color: #999;
-  font-style: italic;
-}
-
-.search-input:hover {
-  border-color: #aaa;
-  background-color: #f1f1f1;
-}
-
-.search-input:focus {
-  border-color: #0a2a49;
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(10, 42, 73, 0.1);
-}
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding: 8px 10px;
-  margin-bottom: 10px;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #004e92;
-  margin: 0;
-}
-
-.toggle-section {
-  font-size: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #555;
-  padding: 2px 8px;
-  transition: color 0.2s ease;
-}
-
-.toggle-section:hover {
-  color: #d90000;
-}
-/* src/components/design/investmentDrawer.css */
-/* src/components/design/investmentDrawer.css */
-
+/* Investment Drawer */
 .investment-drawer {
   padding: 15px 20px;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
   background: #fafafa;
-}
-
-.investment-range label {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
-  display: block;
+  border-radius: 8px;
 }
 
 .range-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 input[type="range"] {
   flex: 1;
   height: 6px;
-  background: #ccc;
-  appearance: none;
+  background: #ddd;
   border-radius: 5px;
   outline: none;
+  appearance: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -192,40 +166,29 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid white;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: #007bff;
-  border-radius: 50%;
-  cursor: pointer;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
 }
 
 .range-number {
   width: 120px;
-  padding: 5px 8px;
+  padding: 6px 10px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 500;
   font-size: 14px;
 }
 
 .range-value {
   font-size: 15px;
-  margin-top: 5px;
   font-weight: 600;
   color: #0069d9;
+  margin-top: 4px;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+/* Animations */
+@keyframes slideIn { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .side-menu { width: 100%; }
 }

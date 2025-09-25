@@ -1,0 +1,118 @@
+.job-inquiry-page {
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Career Section */
+.career-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.career-section h2 {
+    color: #0a0a87;
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.career-section p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.career-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    text-align: left;
+    margin: 0 auto 20px;
+    max-width: 700px;
+}
+
+.career-section li {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Two images side by side */
+.career-images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.career-images img {
+    max-width: 100%;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Job Inquiry Form */
+.job-inquiry-container {
+    background-color: #f9f9ff;
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.job-inquiry-container h2 {
+    text-align: center;
+    color: #0a0a87;
+    margin-bottom: 25px;
+}
+
+.job-inquiry-form input[type="text"],
+.job-inquiry-form input[type="email"],
+.job-inquiry-form input[type="file"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.job-inquiry-form input:focus {
+    border-color: #0a0a87;
+    box-shadow: 0 0 8px rgba(10, 10, 135, 0.2);
+}
+
+.job-inquiry-form button {
+    width: 100%;
+    padding: 14px;
+    background-color: #0a0a87;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.job-inquiry-form button:hover {
+    background-color: #060644;
+}
+
+.success-message {
+    margin-top: 15px;
+    text-align: center;
+    color: #2e7d32;
+    font-weight: 500;
+    background-color: #e8f5e9;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+    .career-images {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+}

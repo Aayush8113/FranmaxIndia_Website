@@ -1,693 +1,674 @@
-  /* Header */
+/* =============================
+   Existing CSS (your original code)
+   ============================= */
+
+/* Header */
+.main-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 999;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 30px;
+  flex-wrap: wrap;
+}
+
+.top-left img {
+  height: 70px;
+  background-color: transparent;
+}
+
+.top-center {
+  flex: 1;
+  text-align: center;
+}
+
+.top-center h2 {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 600;
+  color: #f5842c;
+}
+
+.top-center span {
+  color: #f5842c;
+}
+
+.top-right a {
+  margin-left: 15px;
+  color: #000;
+  font-size: 20px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.top-right a:hover {
+  background-color: whitesmoke;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #060644;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Section */
+.nav-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-x: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-left a {
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.nav-left a:hover {
+  color: #f5842c;
+}
+
+.nav-left a.active {
+  background-color: #44406e;
+  color: #fff;
+}
+
+.nav-left::-webkit-scrollbar {
+  display: none;
+}
+
+/* Home Icon */
+.nav-icon {
+  font-size: 22px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.nav-icon:hover,
+.nav-icon.active {
+  background-color: #060644;
+  color: #fff;
+}
+
+/* Right Section (Search Icon) */
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Tab Filter Modal Styles */
+.search-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.search-modal {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 900px;
+  width: 95%;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* =============================
+   Responsive Tweaks
+   ============================= */
+@media (max-width: 768px) {
   .main-header {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 999;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: static;
   }
 
-  .top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 30px;
-    flex-wrap: wrap;
-  }
-
-  .top-left img {
-    height: 70px;
-    background-color: transparent;
-    /* or simply remove this line */
-  }
-
-
-  .top-center {
-    flex: 1;
-    text-align: center;
-  }
-
-  .top-center h2 {
-    font-size: 20px;
-    margin: 0;
-    font-weight: 600;
-    color: #f5842c;
-  }
-
-  .top-center span {
-    color: #f5842c;
-  }
-
-  .top-right a {
-    margin-left: 15px;
-    color: #000;
-    font-size: 20px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .top-right a:hover {
-    background-color: whitesmoke;
-  }
-
-  /* Navbar */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 20px;
-    background-color: #060644;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Left Section */
   .nav-left {
-    display: flex;
-    gap: 20px;
-    align-items: center;
     flex-wrap: wrap;
-    /* don’t force wrapping */
-    overflow-x: visible;
-    /* allow horizontal scroll on small screens */
-    -webkit-overflow-scrolling: touch;
-    /* smooth scroll on mobile */
+    justify-content: flex-start;
+    gap: 10px;
   }
 
-  .nav-left a {
-    text-decoration: none;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    color: #fff;
-    white-space: nowrap;
-    /* keep text on one line */
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
+  .nav-left a,
+  .nav-left .dropdown-trigger {
+    font-size: 14px;
+    padding: 5px 8px;
   }
+}
 
-  .nav-left a:hover {
-    color: #f5842c;
-  }
+/* Tab Filter Box */
+.tab-filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto;
+  padding: 20px;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-  .nav-left a.active {
-    background-color: #44406e;
-    color: #fff;
-  }
+/* Tabs */
+.tab-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
 
-  .nav-left::-webkit-scrollbar {
-    display: none;
-    /* hide scroll bar but keep scrolling */
-  }
+.tab {
+  padding: 10px 20px;
+  background-color: #eee;
+  color: #333;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-  /* Home Icon */
-  .nav-icon {
-    font-size: 22px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-  }
+.tab:hover {
+  background-color: #ddd;
+}
 
-  .nav-icon:hover,
-  .nav-icon.active {
-    background-color: #060644;
-    color: #fff;
-  }
+.tab.active {
+  background-color: #060644;
+  color: white;
+}
 
-  /* Right Section (Search Icon) */
-  .nav-right {
-    display: flex;
-    align-items: center;
-  }
+/* Tab Content */
+.tab-content {
+  width: 100%;
+}
 
-  .nav-search-icon {
-    cursor: pointer;
-    font-size: 22px;
-    color: #000;
-    padding: 6px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-  }
+/* Filter Row */
+.filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
 
-  .nav-search-icon:hover {
-    background-color: #060644;
-    color: #fff;
-  }
+.filter-row>div {
+  min-width: 200px;
+}
 
-  /* Tab Filter Modal Styles */
-  .search-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
+.search-btn {
+  padding: 10px 16px;
+  background-color: #ddd;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 40px;
+  margin-top: 0;
+}
 
-  .search-modal {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 900px;
-    width: 95%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
+.filter-row select,
+.filter-row input {
+  padding: 10px 12px;
+  min-width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
 
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
+.search-btn:hover {
+  background-color: #060644;
+}
 
-  /* =============================
-    Responsive Tweaks
-  ============================= */
-  @media (max-width: 768px) {
-    .main-header {
-      position: static;
-    }
+.hamburger-icon {
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+  padding: 6px 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
 
-    .nav-left {
+.hamburger-icon:hover {
+  background-color: #060644;
+  color: #f5842c;
+}
 
-      flex-wrap: wrap;
-      /* instead of scrolling, wrap into 2+ rows */
-      justify-content: flex-start;
-      gap: 10px;
-    }
+.top-right .top-link-button {
+  background: none;
+  border: none;
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-left: 15px;
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
 
-    .nav-left a,
-    .nav-left .dropdown-trigger {
-      font-size: 14px;
-      /* slightly smaller text */
-      padding: 5px 8px;
-    }
-  }
+.top-right .top-link-button:hover {
+  background-color: #060644;
+  color: #f5842c;
+}
 
+/* Dropdown Styles */
+.services-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
 
-  /* Tab Filter Box */
-  .tab-filter-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 30px auto;
-    padding: 20px;
-    max-width: 900px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
+.dropdown-trigger {
+  cursor: pointer;
+  font-weight: 500;
+  padding: 8px 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
 
-  /* Tabs */
-  .tab-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    gap: 15px;
-  }
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  background: #060644;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+  padding: 8px 0;
+  z-index: 1000;
+}
 
-  .tab {
-    padding: 10px 20px;
-    background-color: #eee;
-    color: #333;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
+.dropdown-item {
+  display: block;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+  color: #fff;
+}
 
-  .tab:hover {
-    background-color: #ddd;
-  }
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
 
-  .tab.active {
-    background-color: #060644;
-    color: white;
-  }
+.dropdown-item-has-submenu {
+  position: relative;
+  color: black;
+}
 
-  /* Tab Content */
-  .tab-content {
-    width: 100%;
-  }
+.submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 5px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 280px;
+  padding: 8px 0;
+  z-index: 1010;
+  color: black;
+}
 
-  /* Filter Row */
-  .filter-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
+.submenu-item {
+  display: block;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.2s ease, color 0.2s ease;
+}
 
-  .filter-row>div {
-    min-width: 200px;
-  }
+.submenu-item:hover,
+.submenu-item:focus {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
 
-  .search-btn {
-    padding: 10px 16px;
-    background-color: #ddd;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    white-space: nowrap;
-    /* prevents breaking in small widths */
-    height: 40px;
-    /* matches react-select height */
-    margin-top: 0;
-    /* ensures alignment */
-  }
+/* =============================
+   NEW: Google-style Search Box & Live Dropdown
+   ============================= */
+.nav-search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dcdcdc;
+  border-radius: 24px;
+  padding: 5px 10px;
+  background-color: #fff;
+  max-width: 300px;
+  transition: box-shadow 0.2s;
+  position: relative;
+}
 
-  .filter-row select,
-  .filter-row input {
-    padding: 10px 12px;
-    min-width: 200px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
+.nav-search-box:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
 
-  /* Search Button */
+.google-style-search {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 24px;
+}
 
-  .search-btn:hover {
-    background-color: #060644;
-  }
+.nav-search-box .search-icon {
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 6px;
+  color: #555;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
 
-  .hamburger-icon {
-    font-size: 22px;
-    color: #fff;
-    cursor: pointer;
-    padding: 6px 10px;
+.nav-search-box .search-icon:hover {
+  color: #f5842c;
+  transform: scale(1.1);
+}
+
+/* Live Search Dropdown */
+.live-search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1010;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+.live-search-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.live-search-item:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+/* Responsive for search box */
+@media (max-width: 768px) {
+  .nav-search-box {
+    max-width: 200px;
     margin-right: 10px;
-    border-radius: 4px;
-    transition: background 0.3s ease;
   }
 
-  .hamburger-icon:hover {
-    background-color: #060644;
-    color: #f5842c;
+  .google-style-search {
+    font-size: 12px;
   }
 
-  .top-right .top-link-button {
-    background: none;
-    border: none;
-    color: black;
-    font-size: 20px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+  .nav-search-box .search-icon {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-search-box {
+    max-width: 150px;
+    padding: 4px 8px;
+  }
+
+  .google-style-search {
+    font-size: 12px;
+  }
+
+  .nav-search-box .search-icon {
+    font-size: 14px;
+  }
+}
+  
+
+/* =============================
+   Mobile & Responsiveness Enhancements
+   ============================= */
+
+/* Hamburger menu: visible on mobile */
+@media (max-width: 768px) {
+  .hamburger-icon {
+    display: block;
+    font-size: 24px;
+    padding: 6px 10px;
     cursor: pointer;
-    margin-left: 15px;
-    font-family: inherit;
-    transition: color 0.2s ease;
   }
 
-  .top-right .top-link-button:hover {
-    background-color: #060644;
-    color: #f5842c;
+  .nav-left {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .services-dropdown-wrapper {
-    position: relative;
-    display: inline-block;
+  .nav-right {
+    flex: 1;
+    justify-content: flex-end;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .nav-search-box {
+    width: 100%;
+    max-width: 140px;
   }
 
-  .dropdown-trigger {
-    cursor: pointer;
-    font-weight: 500;
-    padding: 8px 10px;
-    color: #333;
+  .live-search-dropdown {
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    margin: 5px auto 0 auto;
   }
 
   .dropdown-menu {
-    position: absolute;
-    top: 35px;
-    left: 0;
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    min-width: 180px;
-    padding: 8px 0;
-    z-index: 999;
+    max-width: 95vw;
+    overflow-x: auto;
+    word-wrap: break-word;
+  }
+}
+
+/* Live Search dropdown */
+.live-search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-height: 280px;
+  overflow-y: auto;
+  z-index: 1010;
+  font-size: 13px;
+}
+
+.live-search-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.live-search-item:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+/* Dropdown Menu Overflow Fix */
+.dropdown-menu,
+.submenu {
+  max-width: 95vw;
+  overflow-x: auto;
+  word-wrap: break-word;
+}
+
+/* Ensure search input never overflows */
+.nav-search-box input.google-style-search {
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+/* Side Menu Overlay Improvements (if used) */
+.side-menu {
+  max-width: 90vw; /* never exceed screen width */
+  overflow-y: auto;
+}
+
+/* =============================
+   MOBILE SEARCH BOX IMPROVEMENTS
+   ============================= */
+@media (max-width: 768px) {
+  /* Move search box below nav links */
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
   }
 
-  .dropdown-item {
-    display: block;
-    padding: 10px 18px;
-    font-size: 0.95rem;
-    color: #333;
-    text-decoration: none;
-    transition: background 0.2s ease;
+  .nav-left {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
   }
 
-  .dropdown-item:hover {
-    background-color: #f0f0f0;
-    color: #007bff;
-  }
-
-  /* ================================================= */
-  /* Navbar & Dropdown Styling                         */
-  /* ================================================= */
-
-  /* General Navbar links */
-  .nav-left a {
-    padding: 8px 10px;
-    text-decoration: none;
-
-    color: #fff;
-  }
-
-  /* Services Dropdown Wrapper */
-  .services-dropdown-wrapper {
-    position: relative;
-    display: inline-block;
-  }
-
-  /* The clickable trigger for the dropdown */
-  .dropdown-trigger {
-    cursor: pointer;
-    font-weight: 500;
-    padding: 8px 10px;
-    color: #fff;
+  .nav-right {
+    width: 100%;
     display: flex;
-    /* Aligns the icon with the text */
-    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
   }
 
-  /* The main dropdown menu container */
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    /* Position below the trigger */
-    left: 0;
-    margin-top: 5px;
-    /* Add a small gap between trigger and menu */
-    background: #060644;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 250px;
-    /* Increased min-width for better readability */
-    padding: 8px 0;
-    z-index: 1000;
-    /* Use a higher z-index for sub-menus */
-  }
-
-  /* Individual dropdown items (main links) */
-  .dropdown-item {
-    display: block;
-    padding: 10px 18px;
-    font-size: 0.95rem;
-
-    text-decoration: none;
-    white-space: nowrap;
-    /* Prevents text wrapping for better alignment */
-    transition: background 0.2s ease, color 0.2s ease;
-
-  }
-
-  /* Hover and focus states for dropdown items */
-  .dropdown-item:hover,
-  .dropdown-item:focus {
-    background-color: #f0f0f0;
-    color: #007bff;
-  }
-
-  /* Submenu container (for nested items like "Consulting") */
-  .dropdown-item-has-submenu {
+  .nav-search-box {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 6px 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+    border-radius: 30px;
+    background-color: #fff;
     position: relative;
-    color: black
+    transition: box-shadow 0.2s ease;
   }
 
-  /* Styling for the nested submenu */
-  .submenu {
+  .nav-search-box:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.22);
+  }
+
+  .nav-search-box input.google-style-search {
+    flex: 1;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 30px;
+  }
+
+  .nav-search-box .search-icon {
+    font-size: 18px;
+    margin-left: 6px;
+    color: #555;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .nav-search-box .search-icon:hover {
+    color: #f5842c;
+    transform: scale(1.1);
+  }
+
+  /* Live search suggestions under search box */
+  .live-search-dropdown {
     position: absolute;
-    top: 0;
-    left: 100%;
-    /* Positions the submenu to the right of its parent */
-    margin-left: 5px;
+    top: calc(100% + 5px); /* a little space below input */
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
     background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 280px;
-    /* Ensure sub-menu is wide enough for long text */
-    padding: 8px 0;
+    font-size: 14px;
     z-index: 1010;
-    color: black;
   }
 
-  /* Styling for items inside the submenu */
-  .submenu-item {
-    display: block;
-    padding: 10px 18px;
-    font-size: 0.95rem;
-    color: #333;
-    text-decoration: none;
+  .live-search-item {
+    padding: 10px 14px;
+    cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
-
-    /* **FIX for Long Text** */
-    /* This will truncate the text with an ellipsis (...) if it's too long */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
-  /* Hover and focus states for submenu items */
-  .submenu-item:hover,
-  .submenu-item:focus {
+  .live-search-item:hover {
     background-color: #f0f0f0;
     color: #007bff;
   }
+}
 
-  /* ================================================= */
-  /* Other Navbar styles (from your original code)   */
-  /* ================================================= */
-  .top-right .top-link-button:hover {
-    color: white;
+/* Extra small screens */
+@media (max-width: 480px) {
+  .nav-search-box {
+    padding: 5px 10px;
   }
 
-
-  /* =============================
-   Default Styles (Desktop-first)
-   ============================= */
-
-  /* Your original CSS code here... (unchanged) */
-
-
-  /* =============================
-   Extra Small Devices (phones)
-   320px – 480px
-   ============================= */
-  @media (max-width: 480px) {
-    .main-header {
-      position: static;
-      /* remove sticky for mobile */
-    }
-
-    .top-bar {
-      padding: 8px 12px;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 6px;
-    }
-
-    .top-left img {
-      height: 50px;
-    }
-
-    .top-center h2 {
-      font-size: 16px;
-    }
-
-    .top-right a,
-    .top-right .top-link-button {
-      font-size: 14px;
-      margin-left: 8px;
-    }
-
-    .navbar {
-      padding: 6px 8px;
-    }
-
-    .nav-left {
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-
-    }
-
-    .nav-left a {
-      font-size: 12px;
-      padding: 4px 6px;
-    }
-
-    .nav-icon,
-    .nav-search-icon {
-      font-size: 16px;
-      padding: 4px;
-    }
-
-    .hamburger-icon {
-      font-size: 18px;
-      margin-right: 5px;
-    }
+  .nav-search-box input.google-style-search {
+    font-size: 13px;
+    padding: 6px 10px;
   }
 
-
-  /* =============================
-   Small Devices (big phones)
-   481px – 767px
-   ============================= */
-  @media (min-width: 481px) and (max-width: 767px) {
-    .main-header {
-      position: static;
-    }
-
-    .top-bar {
-      padding: 10px 15px;
-      gap: 10px;
-    }
-
-    .top-left img {
-      height: 60px;
-    }
-
-    .top-center h2 {
-      font-size: 18px;
-    }
-
-    .top-right a,
-    .top-right .top-link-button {
-      font-size: 16px;
-      margin-left: 10px;
-    }
-
-    .nav-left {
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .nav-left a {
-      font-size: 13px;
-      padding: 5px 8px;
-    }
+  .nav-search-box .search-icon {
+    font-size: 16px;
   }
 
-
-  /* =============================
-   Medium Devices (tablets)
-   768px – 1023px
-   ============================= */
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .main-header {
-      position: static;
-      /* tablets also no sticky */
-    }
-
-    .top-bar {
-      padding: 12px 20px;
-    }
-
-    .top-left img {
-      height: 65px;
-    }
-
-    .top-center h2 {
-      font-size: 19px;
-    }
-
-    .nav-left {
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .nav-left a {
-      font-size: 14px;
-    }
-
-    .nav-icon,
-    .nav-search-icon {
-      font-size: 18px;
-    }
+  /* Ensure live search dropdown fits small screens */
+  .live-search-dropdown {
+    max-width: 95%;
+    left: 2.5%;
+    right: 2.5%;
   }
-
-
-  /* =============================
-   Large Devices (laptops)
-   1024px – 1439px
-   ============================= */
-  @media (min-width: 1024px) and (max-width: 1439px) {
-    .main-header {
-      position: sticky;
-      /* enable sticky */
-    }
-
-    .top-bar {
-      padding: 12px 25px;
-    }
-
-    .top-left img {
-      height: 70px;
-    }
-
-    .top-center h2 {
-      font-size: 20px;
-    }
-
-    .nav-left a {
-      font-size: 15px;
-    }
-  }
-
-
-  /* =============================
-   Extra Large Devices (desktops, TVs)
-   1440px +
-   ============================= */
-  @media (min-width: 1440px) {
-    .main-header {
-      position: sticky;
-    }
-
-    .top-bar {
-      padding: 15px 40px;
-    }
-
-    .top-left img {
-      height: 80px;
-    }
-
-    .top-center h2 {
-      font-size: 22px;
-    }
-
-    .top-right a,
-    .top-right .top-link-button {
-      font-size: 22px;
-    }
-
-    .nav-left {
-      gap: 24px;
-    }
-
-    .nav-left a {
-      font-size: 16px;
-    }
-
-    .nav-icon,
-    .nav-search-icon {
-      font-size: 24px;
-    }
-  }
+}

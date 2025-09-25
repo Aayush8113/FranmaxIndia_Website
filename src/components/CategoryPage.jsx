@@ -17,6 +17,25 @@ export default function CategoryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Utility to format numbers into Lakhs, Crores etc. without unnecessary decimals
+  const formatCurrency = (num) => {
+    if (!num && num !== 0) return "—";
+    const n = Number(num);
+    if (n >= 10000000) {
+      const cr = n / 10000000;
+      return Number.isInteger(cr) ? `${cr} Cr` : `${cr.toFixed(2)} Cr`;
+    }
+    if (n >= 100000) {
+      const lakh = n / 100000;
+      return Number.isInteger(lakh) ? `${lakh} Lakh` : `${lakh.toFixed(2)} Lakh`;
+    }
+    if (n >= 1000) {
+      const k = n / 1000;
+      return Number.isInteger(k) ? `${k} K` : `${k.toFixed(1)} K`;
+    }
+    return n.toString();
+  };
+
   useEffect(() => {
     const fetchBrands = async () => {
       setLoading(true);
@@ -34,15 +53,11 @@ export default function CategoryPage() {
         }
 
         const data = await res.json();
-        // The API response structure might be different, so we adjust here.
-        // Assuming your get-filtered-brands.php returns an array of brands directly
-        // or a structure like { success: true, brands: [...] }
         if (Array.isArray(data)) {
           setBrands(data);
         } else if (data.success && Array.isArray(data.brands)) {
           setBrands(data.brands);
         } else {
-         
           setError(data.message || "No brands found with these filters.");
         }
       } catch (err) {
@@ -103,7 +118,7 @@ export default function CategoryPage() {
                   <div className="biz-field">
                     <span className="label">Investment:</span>
                     <span className="value">
-                      ₹{brand.min_investment} - {brand.max_investment}
+                      ₹{formatCurrency(brand.min_investment)} - {formatCurrency(brand.max_investment)}
                     </span>
                   </div>
                   <div className="biz-field">

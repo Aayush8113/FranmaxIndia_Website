@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // <-- added useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import './design/FranchiseListing.css';
 import InquiryForm from './EnquiryForm';
-import './design/ListingInquiry.css';
 import { getImageUrl, getApiUrl } from '../utils/api';
+
+// Function to format numbers in Indian style
+const formatIndianNumber = (num) => {
+  if (!num) return '—';
+  if (num >= 10000000) return `₹${(num / 10000000).toFixed(2)} Cr`;
+  if (num >= 100000) return `₹${(num / 100000).toFixed(2)} Lac`;
+  return `₹${num.toLocaleString('en-IN')}`;
+};
 
 const FranchiseListing = () => {
   const { categoryId } = useParams();
-  const navigate = useNavigate(); // <-- initialize navigate
+  const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,7 +27,6 @@ const FranchiseListing = () => {
       try {
         const res = await fetch(apiUrl);
         if (!res.ok) throw new Error('Network response was not ok');
-
         const data = await res.json();
         if (data.success && Array.isArray(data.brands)) {
           setBrands(data.brands);
@@ -37,16 +43,17 @@ const FranchiseListing = () => {
         setLoading(false);
       }
     };
-
     if (categoryId) fetchBrands();
   }, [categoryId, apiUrl]);
 
   const handleKnowMore = (register_id) => {
-    navigate(`/brand/${register_id}`);  // Must match the route in App.js
+    navigate(`/brand/${register_id}`);
   };
+
   if (loading) return <div className="loading-message">Loading brands...</div>;
   if (error) return <div className="error-message">{error}</div>;
   if (brands.length === 0) return <div className="no-brands-message">No franchises found in this category.</div>;
+
   return (
     <div className="franchise-listing-container">
       <div className="franchise-listing-main">
@@ -72,7 +79,9 @@ const FranchiseListing = () => {
                   </div>
                   <div className="biz-field">
                     <span className="label">Investment:</span>
-                    <span className="value">₹{brand.min_investment} - {brand.max_investment}</span>
+                    <span className="value">
+                      {formatIndianNumber(brand.min_investment)} - {formatIndianNumber(brand.max_investment)}
+                    </span>
                   </div>
                   <div className="biz-field">
                     <span className="label">Area:</span>
@@ -84,7 +93,6 @@ const FranchiseListing = () => {
                   </div>
                 </div>
 
-                {/* Navigate to product detail page */}
                 <button
                   className="franchise-btn"
                   onClick={() => handleKnowMore(brand.register_id)}
@@ -103,4 +111,5 @@ const FranchiseListing = () => {
     </div>
   );
 };
+
 export default FranchiseListing;

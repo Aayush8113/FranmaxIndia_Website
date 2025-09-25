@@ -154,7 +154,7 @@
   border: none;
   color: #fff;
   font-size: 1.2rem;
-  display: flex;
+  display: none; /* hidden by default, only shows on smaller devices */
   align-items: center;
   justify-content: center;
   border-radius: 12px;
@@ -209,29 +209,40 @@
 }
 
 /* ===================== */
-/* 🔹 Responsive Adjustments */
+/* 🔹 Responsive Enhancements */
+
+/* Show mobile toggle button on tablets and smaller devices */
+@media (max-width: 991px) {
+  .snbs-mobile-toggle {
+    display: flex;
+  }
+}
 
 /* Tablets */
 @media (max-width: 991px) {
   .snbs-sidebar {
-    width: 65%;
+    width: 280px;
     min-width: 240px;
-    padding: 15px;
+    max-width: 65%;
+    padding: 18px;
+    transition: transform 0.3s ease, width 0.3s ease;
   }
   .snbs-content-wrapper.with-sidebar {
-    margin-left: 65%;
+    margin-left: 280px;
+    transition: margin-left 0.3s ease;
   }
 }
 
 /* Large Mobile */
 @media (max-width: 767px) {
   .snbs-sidebar {
-    width: 75%;
+    width: 240px;
     min-width: 200px;
-    padding: 15px;
+    max-width: 75%;
+    padding: 16px;
   }
   .snbs-content-wrapper.with-sidebar {
-    margin-left: 75%;
+    margin-left: 240px;
   }
 }
 
@@ -239,10 +250,32 @@
 @media (max-width: 575px) {
   .snbs-sidebar {
     width: 85%;
+    min-width: 180px;
+    max-width: 320px;
     padding: 12px;
   }
   .snbs-content-wrapper.with-sidebar {
     margin-left: 85%;
   }
 }
-  
+
+/* Extra Small Devices (Very Small Screens) */
+@media (max-width: 400px) {
+  .snbs-sidebar {
+    width: 90%;
+    min-width: 160px;
+    max-width: 280px;
+    padding: 10px;
+  }
+  .snbs-content-wrapper.with-sidebar {
+    margin-left: 90%;
+  }
+}
+
+/* Smooth transitions for all responsive adjustments */
+@media (max-width: 991px) {
+  .snbs-sidebar,
+  .snbs-content-wrapper.with-sidebar {
+    transition: all 0.3s ease;
+  }
+}

@@ -9,29 +9,107 @@ import {
   FaMapMarkerAlt,
   FaEnvelope,
   FaPhoneAlt,
+  FaUtensils,
+  FaShoppingBag,
+  FaStore,
+  FaBuilding,
+  FaHospital,
+  FaCarAlt,
+  FaSpa,
+  FaBriefcase,
+  FaGraduationCap,
+  FaHome,
+  FaHotel,
+  FaRunning,
+  FaStar,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import InquiryForm from "./Footer/InquiryForm";
 import WhatsAppIcon from "./Footer/WhatsAppIcon";
 import "./design/Footer.css";
+import { getApiUrl } from "../utils/api";
 
 function Footer() {
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [masterCategories, setMasterCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollButton(window.scrollY > 200);
-    };
+    const handleScroll = () => setShowScrollButton(window.scrollY > 200);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch(getApiUrl("get-master-category.php"));
+        const json = await res.json();
+        const items = Array.isArray(json) ? json : json.data || [];
+        const formatted = items.map((item) => ({
+          value: item.mas_cat_id,
+          label: item.mas_cat_name,
+          slug: (item.mas_cat_slug || item.mas_cat_name || "")
+            .toLowerCase()
+            .replace(/[\s&]+/g, ""), // slugify to match icons
+        }));
+        setMasterCategories(formatted);
+      } catch (err) {
+        console.error("Error loading master categories:", err);
+      } finally {
+        setLoadingCategories(false);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+  // Map categories (slug) to icons
+  const categoryIcons = {
+    automobile: <FaCarAlt />,
+    beautyhealth: <FaSpa />,
+    businessservices: <FaBriefcase />,
+    education: <FaGraduationCap />,
+    fashion: <FaShoppingBag />,
+    foodbeverage: <FaUtensils />,
+    homebasedbusiness: <FaHome />,
+    hoteltraveltourism: <FaHotel />,
+    retail: <FaStore />,
+    sportsfitness: <FaRunning />,
+    healthcare: <FaHospital />,
+    demo: <FaStar />,
+  };
+
   return (
     <>
+      {/* Master Categories Section */}
+      <div className="premium-categories">
+        <h4 className="categories-title">Master Categories</h4>
+        <div className="categories-grid">
+          {loadingCategories ? (
+            <p>Loading categories...</p>
+          ) : masterCategories.length === 0 ? (
+            <p>No categories found.</p>
+          ) : (
+            masterCategories.map((cat) => (
+              <Link
+                key={cat.value}
+                to={`/category?mas_cat=${cat.value}`}
+                className="category-card"
+              >
+                <span className="category-icon">
+                  {categoryIcons[cat.slug] || <FaStore />}
+                </span>
+                <span className="category-name">{cat.label}</span>
+              </Link>
+            ))
+          )}
+        </div>
+      </div>
+
       {/* Disclaimer Section */}
       <div className="premium-disclaimer">
         <div className="disclaimer-card">
@@ -120,7 +198,6 @@ function Footer() {
           <div className="footer-card">
             <h4>Follow Us</h4>
             <div className="social-icons">
-              {/* Instagram */}
               <a
                 href="https://www.instagram.com/franmax_india"
                 target="_blank"
@@ -129,8 +206,6 @@ function Footer() {
               >
                 <FaInstagram />
               </a>
-
-              {/* Facebook */}
               <a
                 href="https://www.facebook.com/@franmaxindia"
                 target="_blank"
@@ -139,40 +214,14 @@ function Footer() {
               >
                 <FaFacebookF />
               </a>
-
-              {/* Google (Multicolor G SVG) */}
               <a
                 href="https://g.co/kgs/zeVko4Q"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-google"
               >
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 48 48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill="#4285F4"
-                    d="M23.99 12.74c1.66 0 3.17.57 4.35 1.68l3.24-3.24C29.23 9.04 26.77 8 23.99 8 14.57 8 7.15 14.55 7.15 24s7.42 16 16.84 16c8.12 0 15-5.7 15-15.33 0-1.03-.11-1.8-.27-2.59H23.99v5.66h9.84c-.43 2.37-2.69 6.95-9.84 6.95-5.96 0-10.84-4.88-10.84-10.84s4.88-10.84 10.84-10.84z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M6.9 14.6l5.7 4.17C13.2 16.8 18.2 12 24 12c3.23 0 6.1 1.1 8.35 2.9l3.24-3.24C32.97 8.57 28.18 7 23.99 7 17.83 7 12.18 10.58 9.17 15.87l-2.27-1.27z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M24 44c5.36 0 9.87-1.77 13.2-4.8l-6.14-5.03C28.78 36.1 26.1 37 23.99 37c-6.99 0-12.85-4.79-14.96-11.27l-5.7 4.17C9.17 39.33 15.88 44 24 44z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M42.84 24c0-1.35-.11-2.55-.27-3.67H23.99v7.05h11.75c-.5 2.3-2.13 5.36-5.65 7.01l6.14 5.03C40.35 34.85 42.84 29.95 42.84 24z"
-                  />
-                </svg>
+                <FaGoogle />
               </a>
-
-              {/* LinkedIn */}
               <a
                 href="https://www.linkedin.com/company/franmaxindia/"
                 target="_blank"
@@ -181,8 +230,6 @@ function Footer() {
               >
                 <FaLinkedinIn />
               </a>
-
-              {/* YouTube */}
               <a
                 href="https://www.youtube.com/@Franmaxindia"
                 target="_blank"
@@ -220,7 +267,6 @@ function Footer() {
           </Link>
         </div>
 
-        {/* WhatsApp Floating Icon */}
         <WhatsAppIcon />
       </footer>
 

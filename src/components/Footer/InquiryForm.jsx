@@ -160,43 +160,52 @@ const InquiryForm = () => {
       <ToastContainer position="top-right" autoClose={2000} />
       <div className="inquiry-row">
         {/* LEFT COLUMN */}
-        <div className="inquiry-left">
-          <div className="advice-card">
-            <div className="advice-icon"><FaStore size={40} color="#25d366" /></div>
-            <div className="inquiry-left">
-              <h3 className="inquiry-title">Connect with Franmax India</h3>
+<div className="inquiry-left">
+  <h3 className="inquiry-title">Why Partner with Franmax India?</h3>
 
-              {/* Franchise Opportunities */}
-              <div className="advice-card">
-                <div className="advice-icon"><FaStore size={40} color="#25d366" /></div>
-                <div className="advice-info">
-                  <h4>Franchise Opportunities</h4>
-                  <p>Franmax India provides complete support for franchisees to scale quickly and profitably. Join our trusted network and grow with proven systems.</p>
-                  <ul className="advice-list">
-                    <li>Extensive Brand Portfolio: Access over 500 franchise opportunities.</li>
-                    <li>Tailored Franchise Matching: Match franchises based on investment, location, and interests.</li>
-                    <li>Comprehensive Support: From site selection to marketing and operations.</li>
+  {/* Why Expand Your Brand */}
+  <div className="advice-card">
+    <div className="advice-icon"><FaStore size={40} color="#25d366" /></div>
+    <div className="advice-info">
+      <h4>Why Expand Your Brand</h4>
+      <p>Take your business to the next level with our proven expansion strategies.</p>
+      <ul className="advice-list">
+        <li>Expand into high-potential markets across India.</li>
+        <li>Leverage Franmax India’s strong franchise network.</li>
+        <li>Reduce risk with expert guidance and market insights.</li>
+      </ul>
+    </div>
+  </div>
 
-                  </ul>
-                </div>
-              </div>
+  {/* Why Invest in a Franchise */}
+  <div className="advice-card">
+    <div className="advice-icon"><FaHandHoldingUsd size={40} color="#25d366" /></div>
+    <div className="advice-info">
+      <h4>Why Invest in a Franchise</h4>
+      <p>Franchising offers a low-risk and high-return pathway to business ownership.</p>
+      <ul className="advice-list">
+        <li>Access trusted brands with proven business models.</li>
+        <li>Enjoy structured training and operational support.</li>
+        <li>Faster ROI compared to starting an independent business.</li>
+      </ul>
+    </div>
+  </div>
 
-              {/* Investor Relations */}
-              <div className="advice-card">
-                <div className="advice-icon"><FaHandHoldingUsd size={40} color="#25d366" /></div>
-                <div className="advice-info">
-                  <h4>Investor Relations</h4>
-                  <p>Invest with Franmax India for strong ROI, structured support, and transparency.</p>
-                  <ul className="advice-list">
-                    <li>Diverse Investment Opportunities across sectors.</li>
-                    <li>Expert Market Insights to make informed decisions.</li>
-                    <li>Dedicated Support from our investor relations team.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  {/* Why Choose Franmax India */}
+  <div className="advice-card">
+    <div className="advice-icon"><FaUser size={40} color="#25d366" /></div>
+    <div className="advice-info">
+      <h4>Why Choose Franmax India</h4>
+      <p>We are India’s most trusted franchise growth partner with decades of expertise.</p>
+      <ul className="advice-list">
+        <li>500+ brands across multiple industries to choose from.</li>
+        <li>Tailored solutions for investors and business owners.</li>
+        <li>Comprehensive support from start to scale-up.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 
         {/* RIGHT COLUMN */}
         <div className="inquiry-right">
